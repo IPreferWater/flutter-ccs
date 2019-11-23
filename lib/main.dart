@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
 
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -142,6 +145,10 @@ class HomeCcsState extends State<HomeCcs> {
               flex: 1,
               child: ScanScreen(),
             ),
+            Expanded(
+              flex: 1,
+              child: DatabaseScreen(),
+            ),
           ],
         ),
       ),
@@ -153,11 +160,6 @@ class HomeCcs extends StatefulWidget {
   @override
   HomeCcsState createState() =>HomeCcsState();
 }
-
-
-
-
-
 
 
 class ScanScreen extends StatefulWidget {
@@ -222,5 +224,242 @@ class _ScanState extends State<ScanScreen> {
     } catch (e) {
       setState(() => this.barcode = 'Unknown error: $e');
     }
+  }
+}
+
+
+
+class DatabaseScreen extends StatefulWidget {
+  @override
+  _DatabaseState createState() => new _DatabaseState();
+}
+
+class _DatabaseState extends State<DatabaseScreen> {
+  @override
+  initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: new AppBar(
+          title: new Text('database'),
+        ),
+
+
+      body: Center(
+    child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: RaisedButton(
+              color: Colors.blue,
+              textColor: Colors.white,
+              splashColor: Colors.blueGrey,
+              onPressed: loadDatabase,
+              child: const Text('load database')
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: RaisedButton(
+              color: Colors.blue,
+              textColor: Colors.white,
+              splashColor: Colors.blueGrey,
+              onPressed: insertDatabase,
+              child: const Text('insert database')
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: RaisedButton(
+              color: Colors.blue,
+              textColor: Colors.white,
+              splashColor: Colors.blueGrey,
+              onPressed: getAllDatabase,
+              child: const Text('retrieve in database')
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: RaisedButton(
+              color: Colors.blue,
+              textColor: Colors.white,
+              splashColor: Colors.blueGrey,
+              onPressed: updateDatabase,
+              child: const Text('update in database')
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: RaisedButton(
+              color: Colors.blue,
+              textColor: Colors.white,
+              splashColor: Colors.blueGrey,
+              onPressed: deleteDatabase,
+              child: const Text('delete in database')
+          ),
+        )
+      ],
+    ),
+    )
+
+
+
+    );
+  }
+
+  Future loadDatabase() async {
+    final Future<Database> database = openDatabase(
+      // Set the path to the database.
+      join(await getDatabasesPath(), 'doggie_database.db'),
+      // When the database is first created, create a table to store dogs.
+      onCreate: (db, version) {
+        // Run the CREATE TABLE statement on the database.
+        return db.execute(
+          "CREATE TABLE dogs(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)",
+        );
+      },
+      // Set the version. This executes the onCreate function and provides a
+      // path to perform database upgrades and downgrades.
+      version: 1,
+    );
+    print("todo buen");
+  }
+  Future insertDatabase() async {
+
+// Create a Dog and add it to the dogs table.
+    final fido = Dog(
+      id: 1,
+      name: 'Rianka',
+      age: 35,
+    );
+
+    await insertDog(fido);
+  }
+
+  Future getAllDatabase() async {
+    final List<Dog> dogss = await dogs();
+    dogss.forEach((dog) => print(dog.name));
+  }
+
+  Future updateDatabase() async {
+    await updateDog(Dog(
+      id: 0,
+      name: 'Bounty',
+      age: 42,
+    ));
+  }
+
+  Future deleteDatabase() async {
+    await deleteDog(0);
+  }
+
+  Future<void> insertDog(Dog dog) async {
+
+    final Future<Database> database = openDatabase(
+      join(await getDatabasesPath(), 'doggie_database.db'),
+      version: 1,
+    );
+
+
+    // Get a reference to the database.
+    final Database db = await database;
+
+    // Insert the Dog into the correct table. You might also specify the
+    // `conflictAlgorithm` to use in case the same dog is inserted twice.
+    //
+    // In this case, replace any previous data.
+    await db.insert(
+      'dogs',
+      dog.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
+    print("dog inserted");
+  }
+
+  // A method that retrieves all the dogs from the dogs table.
+  Future<List<Dog>> dogs() async {
+
+    final Future<Database> database = openDatabase(
+      join(await getDatabasesPath(), 'doggie_database.db'),
+      version: 1,
+    );
+
+    // Get a reference to the database.
+    final Database db = await database;
+
+    // Query the table for all The Dogs.
+    final List<Map<String, dynamic>> maps = await db.query('dogs');
+
+    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    return List.generate(maps.length, (i) {
+      return Dog(
+        id: maps[i]['id'],
+        name: maps[i]['name'],
+        age: maps[i]['age'],
+      );
+    });
+  }
+
+  Future<void> updateDog(Dog dog) async {
+
+    final Future<Database> database = openDatabase(
+      join(await getDatabasesPath(), 'doggie_database.db'),
+      version: 1,
+    );
+    // Get a reference to the database.
+    final db = await database;
+
+    // Update the given Dog.
+    await db.update(
+      'dogs',
+      dog.toMap(),
+      // Ensure that the Dog has a matching id.
+      where: "id = ?",
+      // Pass the Dog's id as a whereArg to prevent SQL injection.
+      whereArgs: [dog.id],
+    );
+  }
+
+  Future<void> deleteDog(int id) async {
+
+    final Future<Database> database = openDatabase(
+      join(await getDatabasesPath(), 'doggie_database.db'),
+      version: 1,
+    );
+    // Get a reference to the database.
+    final db = await database;
+
+    // Remove the Dog from the Database.
+    await db.delete(
+      'dogs',
+      // Use a `where` clause to delete a specific dog.
+      where: "id = ?",
+      // Pass the Dog's id as a whereArg to prevent SQL injection.
+      whereArgs: [id],
+    );
+  }
+}
+
+// Update the Dog class to include a `toMap` method.
+class Dog {
+  final int id;
+  final String name;
+  final int age;
+
+  Dog({this.id, this.name, this.age});
+
+  // Convert a Dog into a Map. The keys must correspond to the names of the
+  // columns in the database.
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'age': age,
+    };
   }
 }
