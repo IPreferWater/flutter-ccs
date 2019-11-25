@@ -31,7 +31,7 @@ class _AdminScreenState extends State<AdminScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          _creationBloc.dispatch(AddRandomCreation());
+          _displayDialog(context);
         },
       ),
     );
@@ -87,21 +87,28 @@ class _AdminScreenState extends State<AdminScreen> {
     );
   }
 }
-/*class AdminScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Second Route"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back!'),
-        ),
-      ),
-    );
-  }
-}*/
+
+
+
+
+_displayDialog(BuildContext context) async {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('TextField in Dialog'),
+          content: TextField(
+            //controller: _textFieldController,
+            decoration: InputDecoration(hintText: "TextField in Dialog"),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text('CANCEL'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      });
+}
