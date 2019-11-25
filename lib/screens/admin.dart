@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ccs/models/Creation.dart';
 import 'package:ccs/creation_bloc/bloc.dart';
 
-
 class AdminScreen extends StatefulWidget {
   _AdminScreenState createState() => _AdminScreenState();
 }
@@ -53,16 +52,17 @@ class _AdminScreenState extends State<AdminScreen> {
               final displayedCreation = state.creations[index];
               return ListTile(
                 title: Text(displayedCreation.id.toString()),
-                subtitle:
-                Text('possible text'),
+                subtitle: Text('possible text'),
                 trailing: _buildUpdateDeleteButtons(displayedCreation),
               );
             },
           );
         }
         return Center(
-            child: Text("error ?", textAlign: TextAlign.center,)
-        );
+            child: Text(
+          "error ?",
+          textAlign: TextAlign.center,
+        ));
       },
     );
   }
@@ -88,27 +88,45 @@ class _AdminScreenState extends State<AdminScreen> {
   }
 }
 
-
-
-
 _displayDialog(BuildContext context) async {
+  final _formKey = GlobalKey<FormState>();
+
   return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('TextField in Dialog'),
-          content: TextField(
-            //controller: _textFieldController,
-            decoration: InputDecoration(hintText: "TextField in Dialog"),
-          ),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text('CANCEL'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
+          content: Form(
+              key: _formKey,
+              child: Column(children: <Widget>[
+                TextFormField(
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.person),
+                    hintText: 'Title of the before item',
+                    labelText: 'Title',
+                  ),
+                  onSaved: (String value) {
+                    // This optional block of code can be used to run
+                    // code when the user saves the form.
+                  },
+                  validator: (String value) {
+                    return value.isEmpty ? 'must not be empty' : null;
+                  },
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: RaisedButton(
+                      onPressed: () {
+                        // Validate returns true if the form is valid, or false
+                        // otherwise.
+                        if (_formKey.currentState.validate()) {
+                          // If the form is valid, display a Snackbar.
+                          Scaffold.of(context).showSnackBar(
+                              SnackBar(content: Text('Processing Data')));
+                        }
+                      },
+                      child: Text('Submit'),
+                    )),
+              ])),
         );
       });
 }
