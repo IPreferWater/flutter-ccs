@@ -1,11 +1,17 @@
 import 'package:ccs/models/Item.dart' as custom;
+import 'package:meta/meta.dart';
 
 class Creation {
+
+  int id;
   custom.Item before;
   custom.Item after;
   List <custom.Item> ingredients;
 
-  Creation({this.before, this.after, this.ingredients});
+  Creation({
+   @required this.before,
+   @required this.after,
+    this.ingredients});
 
   // columns in the database.
   Map<String, dynamic> toMap() {
@@ -14,6 +20,14 @@ class Creation {
       'after': after,
       'ingredients': ingredients,
     };
+  }
+
+  static Creation fromMap(Map<String, dynamic> map) {
+    return Creation(
+      before: map['before'],
+      after: map['after'],
+      ingredients: map['ingredients']
+    );
   }
 
   @override

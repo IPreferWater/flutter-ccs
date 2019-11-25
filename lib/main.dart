@@ -1,15 +1,7 @@
-import 'package:before_after/before_after.dart';
-import 'package:ccs/models/Creation.dart';
-import 'package:ccs/models/Item.dart';
+import 'package:ccs/creation_bloc/bloc.dart';
+import 'package:ccs/screens/home.dart';
 import 'package:flutter/material.dart';
-
-import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter/services.dart';
-
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-
-import 'services/database.dart' as db;
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,25 +9,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      bloc: CreationBloc(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
       ),
-      home: HomeCcs()
+          home: HomePage()
+      ),
+
     );
   }
 }
-
+/*
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -131,14 +118,14 @@ class HomeCcsState extends State<HomeCcs> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              flex: 1,
+              flex: 2,
               child: BeforeAfter(
                 beforeImage: Image.asset('assets/after.jpg'),
                 afterImage: Image.asset('assets/before.jpg'),
               ),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: BeforeAfter(
                 beforeImage: Image.asset('assets/after.jpg'),
                 afterImage: Image.asset('assets/before.jpg'),
@@ -146,13 +133,28 @@ class HomeCcsState extends State<HomeCcs> {
               ),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: ScanScreen(),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: DatabaseScreen(),
             ),
+            Expanded(
+              flex: 1,
+              child: RaisedButton(
+                  color: Colors.blue,
+                  textColor: Colors.white,
+                  splashColor: Colors.blueGrey,
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AdminScreen()),
+                    );
+                  },
+                  child: const Text('admin')
+              ),
+            )
           ],
         ),
       ),
@@ -305,6 +307,16 @@ class _DatabaseState extends State<DatabaseScreen> {
                     onPressed: deleteDatabase,
                     child: const Text('delete in database')
                 ),
+              ),
+              Expanded(
+                flex: 1,
+                child: RaisedButton(
+                    color: Colors.blue,
+                    textColor: Colors.white,
+                    splashColor: Colors.blueGrey,
+                    onPressed: deleteDatabase,
+                    child: const Text('delete in database')
+                ),
               )
             ],
           ),
@@ -372,4 +384,4 @@ class _DatabaseState extends State<DatabaseScreen> {
   }
 
 
-}
+*/

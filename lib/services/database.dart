@@ -1,16 +1,28 @@
+import 'dart:async';
+
 import 'package:ccs/models/Creation.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+//import 'package:path/path.dart';
+//import 'package:sqflite/sqflite.dart';
+//import 'package:sembast/sembast.dart';
+//import 'package:sembast/sembast_io.dart';
 
 Future<void> insertDog(Creation creation) async {
 
-  final Future<Database> database = openDatabase(
+ // Database db = await databaseFactoryIo
+  //    .openDatabase(join(".dart_tool", "sembast", "example", "record_demo.db"));
+
+
+
+  /*final Future<Database> database = openDatabase(
     join(await getDatabasesPath(), 'ccs_database.db'),
     version: 1,
-  );
+  );*/
+
+ // Database db = await createDatabaseFactoryIo.openDatabase
+  //var store = intMapStoreFactory.store("my_store");
 
 
-  // Get a reference to the database.
+/*  // Get a reference to the database.
   final Database db = await database;
 
   // Insert the Dog into the correct table. You might also specify the
@@ -23,12 +35,12 @@ Future<void> insertDog(Creation creation) async {
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
 
-  print("creation inserted");
+  print("creation inserted");*/
 }
 
 // A method that retrieves all the dogs from the dogs table.
-Future<List<Dog>> dogs() async {
-
+//Future<List<Dog>> dogs() async {
+/*
   final Future<Database> database = openDatabase(
     join(await getDatabasesPath(), 'doggie_database.db'),
     version: 1,
@@ -47,11 +59,11 @@ Future<List<Dog>> dogs() async {
       name: maps[i]['name'],
       age: maps[i]['age'],
     );
-  });
-}
+  });*/
+//}
 
 Future<void> updateDog(Dog dog) async {
-
+/*
   final Future<Database> database = openDatabase(
     join(await getDatabasesPath(), 'doggie_database.db'),
     version: 1,
@@ -67,11 +79,11 @@ Future<void> updateDog(Dog dog) async {
     where: "id = ?",
     // Pass the Dog's id as a whereArg to prevent SQL injection.
     whereArgs: [dog.id],
-  );
+  );*/
 }
 
 Future<void> deleteDog(int id) async {
-
+/*
   final Future<Database> database = openDatabase(
     join(await getDatabasesPath(), 'doggie_database.db'),
     version: 1,
@@ -86,7 +98,7 @@ Future<void> deleteDog(int id) async {
     where: "id = ?",
     // Pass the Dog's id as a whereArg to prevent SQL injection.
     whereArgs: [id],
-  );
+  );*/
 }
 
 
