@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ccs/models/Creation.dart';
+import 'package:ccs/models/Item.dart';
 import 'package:ccs/creation_bloc/bloc.dart';
 
 class AdminScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _AdminScreenState extends State<AdminScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          _displayDialog(context);
+          _displayDialog(context, _creationBloc);
         },
       ),
     );
@@ -88,8 +89,9 @@ class _AdminScreenState extends State<AdminScreen> {
   }
 }
 
-_displayDialog(BuildContext context) async {
+_displayDialog(BuildContext context, CreationBloc _creationBloc) async {
   final _formKey = GlobalKey<FormState>();
+  final beforeTitle = TextEditingController();
 
   return showDialog(
       context: context,
@@ -99,6 +101,7 @@ _displayDialog(BuildContext context) async {
               key: _formKey,
               child: Column(children: <Widget>[
                 TextFormField(
+                  controller: beforeTitle,
                   decoration: const InputDecoration(
                     icon: Icon(Icons.person),
                     hintText: 'Title of the before item',
@@ -120,8 +123,26 @@ _displayDialog(BuildContext context) async {
                         // otherwise.
                         if (_formKey.currentState.validate()) {
                           // If the form is valid, display a Snackbar.
-                          Scaffold.of(context).showSnackBar(
-                              SnackBar(content: Text('Processing Data')));
+                         print('seems to be ok ${beforeTitle.text}');
+
+                         final before = Item(
+                             title: beforeTitle.text,
+                             description: "before long desc",
+                             imgPath: "path/to/beforeImg.jpg"
+                         );
+
+                         final after = Item(
+                             title: "afterTitle",
+                             description: "after long desc",
+                             imgPath: "path/to/beforeImg.jpg"
+                         );
+                         final creationToCreate = Creation(
+                             before: before,
+                             after: after,
+                             ingredients: <Item>[]
+                         );
+
+                         _creationBloc.dispatch(CreateCreation(creationToCreate));
                         }
                       },
                       child: Text('Submit'),

@@ -16,9 +16,9 @@ class Creation {
   // columns in the database.
   Map<String, dynamic> toMap() {
     return {
-      'before': before,
-      'after': after,
-      'ingredients': ingredients,
+      'before': before.toMap(),
+      'after': after.toMap(),
+      'ingredients': ingredients.map((ingredient) => ingredient.toMap()).toList(growable: false)
     };
   }
 

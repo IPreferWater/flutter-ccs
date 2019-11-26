@@ -18,6 +18,12 @@ class UpdateWithRandomCreation extends CreationEvent {
   UpdateWithRandomCreation(this.updatedCreation) : super([updatedCreation]);
 }
 
+class CreateCreation extends CreationEvent{
+  final Creation creation;
+
+  CreateCreation(this.creation) : super ([creation]);
+}
+
 class DeleteCreation extends CreationEvent {
   final Creation creation;
 

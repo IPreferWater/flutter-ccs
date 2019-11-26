@@ -45,6 +45,17 @@ class CreationBloc extends Bloc<CreationEvent, CreationState> {
     } else if (event is DeleteCreation) {
       await _creationDao.delete(event.creation);
       yield* _reloadCreations();
+    } else if (event is CreateCreation){
+
+      print("try to create ${event.creation}");
+
+
+      await _creationDao.insert(event.creation);
+      print("fin creationDao");
+      final creations = await _creationDao.getAllSortedByName();
+
+      print("all creations => $creations");
+
     }
   }
 
@@ -52,6 +63,7 @@ class CreationBloc extends Bloc<CreationEvent, CreationState> {
     print("event is _reloadCreations");
 
     final creations = await _creationDao.getAllSortedByName();
+    print("fin");
     // Yielding a state bundled with the Creations from the database.
     yield CreationsLoaded(creations);
   }

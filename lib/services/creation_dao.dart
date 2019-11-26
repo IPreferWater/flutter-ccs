@@ -15,7 +15,10 @@ class CreationDao {
   Future<Database> get _db async => await AppDatabase.instance.database;
 
   Future insert(Creation creation) async {
-    await _creationStore.add(await _db, creation.toMap());
+    print("start creationStore.add ? $creation");
+    print(_db);
+    final t = await _creationStore.add(await _db, creation.toMap());
+    print(t);
   }
 
   Future update(Creation creation) async {
@@ -38,6 +41,8 @@ class CreationDao {
   }
 
   Future<List<Creation>> getAllSortedByName() async {
+
+    print("getAllSorted");
     // Finder object can also sort data.
     final finder = Finder(sortOrders: [
       SortOrder('name'),
