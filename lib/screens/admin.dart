@@ -93,18 +93,38 @@ class _AdminScreenState extends State<AdminScreen> {
 }
 
 _displayDialog(BuildContext context, CreationBloc _creationBloc) async {
+
+  const String BEFORE = "before";
+  const String AFTER = "after";
   final _formKey = GlobalKey<FormState>();
   final beforeTitle = TextEditingController();
   final beforeDescription = TextEditingController();
+  final beforeImageUrl = TextEditingController();
+
+  final afterTitle = TextEditingController();
+  final afterDescription = TextEditingController();
+  final afterImageUrl = TextEditingController();
+
 
   Future getImageFromCamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
       print("image selected $image");
   }
 
-  Future getImageFromGallery() async {
+  Future getImageFromGallery(String creation) async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    if(creation==BEFORE){
+      beforeImageUrl.text = image.absolute.toString();
+      return;
+    }
+
+    if(creation==AFTER){
+      afterImageUrl.text = image.absolute.toString();
+    }
+
     print("image selected $image");
+    print("image absolute uri =  ${image.absolute}");
   }
 
   return showDialog(
@@ -115,6 +135,7 @@ _displayDialog(BuildContext context, CreationBloc _creationBloc) async {
           content: Form(
               key: _formKey,
               child: Column(children: <Widget>[
+                //before item
                 TextFormField(
                   controller: beforeTitle,
                   decoration: const InputDecoration(
@@ -137,43 +158,92 @@ _displayDialog(BuildContext context, CreationBloc _creationBloc) async {
                     return value.isEmpty ? 'must not be empty' : null;
                   },
                 ),
-                RaisedButton(
-                 onPressed: getImageFromCamera,
-                  child: Text('camera'),
+                Column(
+                children: <Widget>[
+                  RaisedButton(
+                    onPressed: (){
+                      getImageFromCamera();
+                    },
+                    child: Text('camera'),
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      getImageFromGallery(BEFORE);
+                    },
+                    child: Text('gallery'),
+                  ),
+                  TextField(
+                    controller: beforeImageUrl,
+                  )
+                ],
                 ),
-                RaisedButton(
-                  onPressed: getImageFromGallery,
-                  child: Text('gallery'),
+
+                //after item
+                TextFormField(
+                  controller: afterTitle,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.person),
+                    hintText: 'Title of the after item',
+                    labelText: 'Title',
+                  ),
+                  validator: (String value) {
+                    return value.isEmpty ? 'must not be empty' : null;
+                  },
                 ),
+                TextFormField(
+                  controller: afterDescription,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.person),
+                    hintText: 'Description of the after item',
+                    labelText: 'Description',
+                  ),
+                  validator: (String value) {
+                    return value.isEmpty ? 'must not be empty' : null;
+                  },
+                ),
+                Column(
+                  children: <Widget>[
+                    RaisedButton(
+                      onPressed: getImageFromCamera,
+                      child: Text('camera'),
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        getImageFromGallery(AFTER);
+                      },
+                      child: Text('gallery'),
+                    ),
+                    TextField(
+                      controller: afterImageUrl,
+                    )
+                  ],
+                ),
+
 
                 Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: RaisedButton(
                       onPressed: () {
-                        // Validate returns true if the form is valid, or false
-                        // otherwise.
                         if (_formKey.currentState.validate()) {
-                          // If the form is valid, display a Snackbar.
-                         print('seems to be ok ${beforeTitle.text}');
-
                          final before = Item(
                              title: beforeTitle.text,
-                             description: "before long desc",
-                             imgPath: "path/to/beforeImg.jpg"
+                             description: beforeDescription.text,
+                             imgPath: beforeImageUrl.text
                          );
 
                          final after = Item(
-                             title: "afterTitle",
-                             description: "after long desc",
-                             imgPath: "path/to/beforeImg.jpg"
+                             title: afterTitle.text,
+                             description: afterDescription.text,
+                             imgPath: afterImageUrl.text
                          );
                          final creationToCreate = Creation(
                              before: before,
                              after: after,
                              ingredients: <Item>[]
                          );
-
                          _creationBloc.dispatch(CreateCreation(creationToCreate));
+
+                         Navigator.of(context).pop();
                         }
                       },
                       child: Text('Submit'),

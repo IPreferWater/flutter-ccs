@@ -47,15 +47,8 @@ class CreationBloc extends Bloc<CreationEvent, CreationState> {
       yield* _reloadCreations();
     } else if (event is CreateCreation){
 
-      print("try to create ${event.creation}");
-
-
       await _creationDao.insert(event.creation);
-      print("fin creationDao");
-      final creations = await _creationDao.getAllSortedByName();
-
-      print("all creations => $creations");
-
+      yield* _reloadCreations();
     }
   }
 
