@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ccs/models/Creation.dart';
 import 'package:ccs/models/Item.dart';
 import 'package:ccs/creation_bloc/bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AdminScreen extends StatefulWidget {
   _AdminScreenState createState() => _AdminScreenState();
@@ -87,13 +88,27 @@ class _AdminScreenState extends State<AdminScreen> {
       ],
     );
   }
+
+
 }
 
 _displayDialog(BuildContext context, CreationBloc _creationBloc) async {
   final _formKey = GlobalKey<FormState>();
   final beforeTitle = TextEditingController();
+  final beforeDescription = TextEditingController();
+
+  Future getImageFromCamera() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+      print("image selected $image");
+  }
+
+  Future getImageFromGallery() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    print("image selected $image");
+  }
 
   return showDialog(
+
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -107,14 +122,30 @@ _displayDialog(BuildContext context, CreationBloc _creationBloc) async {
                     hintText: 'Title of the before item',
                     labelText: 'Title',
                   ),
-                  onSaved: (String value) {
-                    // This optional block of code can be used to run
-                    // code when the user saves the form.
-                  },
                   validator: (String value) {
                     return value.isEmpty ? 'must not be empty' : null;
                   },
                 ),
+                TextFormField(
+                  controller: beforeDescription,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.person),
+                    hintText: 'Description of the before item',
+                    labelText: 'Description',
+                  ),
+                  validator: (String value) {
+                    return value.isEmpty ? 'must not be empty' : null;
+                  },
+                ),
+                RaisedButton(
+                 onPressed: getImageFromCamera,
+                  child: Text('camera'),
+                ),
+                RaisedButton(
+                  onPressed: getImageFromGallery,
+                  child: Text('gallery'),
+                ),
+
                 Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: RaisedButton(
