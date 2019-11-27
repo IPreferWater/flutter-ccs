@@ -23,10 +23,11 @@ class Creation {
   }
 
   static Creation fromMap(Map<String, dynamic> map) {
+
     return Creation(
-      before: map['before'],
-      after: map['after'],
-      ingredients: map['ingredients']
+      before: custom.Item.fromMap(map['before']),
+      after: custom.Item.fromMap(map['after']),
+      ingredients: null
     );
   }
 
