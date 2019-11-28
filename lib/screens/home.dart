@@ -19,22 +19,14 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              flex: 2,
+              flex: 10,
               child: BeforeAfter(
                 beforeImage: Image.asset('assets/after.jpg'),
                 afterImage: Image.asset('assets/before.jpg'),
               ),
             ),
             Expanded(
-              flex: 2,
-              child: BeforeAfter(
-                beforeImage: Image.asset('assets/after.jpg'),
-                afterImage: Image.asset('assets/before.jpg'),
-                isVertical: true,
-              ),
-            ),
-            Expanded(
-              flex: 2,
+              flex: 4,
               child: ScanScreen(),
             ),
             Expanded(
@@ -79,9 +71,6 @@ class _ScanState extends State<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: new AppBar(
-          title: new Text('QR Code Scanner'),
-        ),
         body: new Center(
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.center,
