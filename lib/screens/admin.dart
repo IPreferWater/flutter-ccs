@@ -132,9 +132,13 @@ _displayDialog(BuildContext context, CreationBloc _creationBloc) async {
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: Form(
+            content: Container(
+              width: double.maxFinite,
+          child: Form(
               key: _formKey,
-              child: Column(children: <Widget>[
+              child: ListView(
+                  padding: const EdgeInsets.all(8),
+                  children: <Widget>[
                 //before item
                 TextFormField(
                   controller: beforeTitle,
@@ -249,6 +253,7 @@ _displayDialog(BuildContext context, CreationBloc _creationBloc) async {
                       child: Text('Submit'),
                     )),
               ])),
+            )
         );
       });
 }
