@@ -1,3 +1,4 @@
+import 'package:ccs/models/dropdown_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ccs/models/Creation.dart';
@@ -105,6 +106,8 @@ _displayDialog(BuildContext context, CreationBloc _creationBloc) async {
   final afterDescription = TextEditingController();
   final afterImageUrl = TextEditingController();
 
+  String _myActivity;
+
 
   Future getImageFromCamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -139,6 +142,26 @@ _displayDialog(BuildContext context, CreationBloc _creationBloc) async {
               child: ListView(
                   padding: const EdgeInsets.all(8),
                   children: <Widget>[
+                    DropDownFormField(
+                      titleText: 'My workout',
+                      hintText: 'Please choose one',
+                    /*  onChanged: (value) {
+                        setState(() {
+                          _myActivity = value;
+                        });
+                      },*/
+                        value: _myActivity,
+                        dataSource: [{
+                          "display": "qrcode 1",
+                          "value": 1,
+                        },
+                          {
+                            "display": "qrcode 2",
+                            "value": 2,
+                          }],
+                      textField: 'display',
+                      valueField: 'value',
+                    ),
                 //before item
                 TextFormField(
                   controller: beforeTitle,
