@@ -1,10 +1,8 @@
-import 'package:ccs/models/dropdown_formfield.dart';
+import 'package:ccs/models/creation_form_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ccs/models/Creation.dart';
-import 'package:ccs/models/Item.dart';
 import 'package:ccs/creation_bloc/bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AdminScreen extends StatefulWidget {
   _AdminScreenState createState() => _AdminScreenState();
@@ -33,7 +31,13 @@ class _AdminScreenState extends State<AdminScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          _displayDialog(context, _creationBloc);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => CreationFormDialog(
+              context: context,
+              creationBloc:_creationBloc
+            ),
+          );
         },
       ),
     );
@@ -92,7 +96,7 @@ class _AdminScreenState extends State<AdminScreen> {
 
 
 }
-
+/*
 _displayDialog(BuildContext context, CreationBloc _creationBloc) async {
 
   const String BEFORE = "before";
@@ -275,8 +279,10 @@ _displayDialog(BuildContext context, CreationBloc _creationBloc) async {
                       },
                       child: Text('Submit'),
                     )),
-              ])),
+              ]
+              )
+          ),
             )
         );
       });
-}
+}*/
