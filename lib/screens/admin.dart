@@ -59,7 +59,7 @@ class _AdminScreenState extends State<AdminScreen> {
               final displayedCreation = state.creations[index];
               return ListTile(
                 title: Text(displayedCreation.id.toString()),
-                subtitle: Text('possible text'),
+                subtitle: Text('qr code : ${displayedCreation.qrCode} before : ${displayedCreation.before.title} after : ${displayedCreation.after.title}'),
                 trailing: _buildUpdateDeleteButtons(displayedCreation),
               );
             },

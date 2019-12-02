@@ -35,7 +35,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
   final afterDescription = TextEditingController();
   final afterImageUrl = TextEditingController();
 
-  String _myActivity;
+  int qrCode;
 
   CreationBloc _creationBloc;
 
@@ -60,7 +60,6 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
     return
       Dialog(
       elevation: 0.0,
-      backgroundColor: Colors.transparent,
       child: dialogContent(context),
     );
   }
@@ -90,20 +89,27 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
               DropDownFormField(
                 titleText: 'My workout',
                 hintText: 'Please choose one',
-                /*  onChanged: (value) {
-                        setState(() {
-                          _myActivity = value;
-                        });
-                      },*/
-                value: _myActivity,
-                dataSource: [{
-                  "display": "qrcode 1",
-                  "value": 1,
+                value: qrCode,
+                onSaved: (value) {
+                  setState(() {
+                    qrCode = value;
+                  });
                 },
-                  {
-                    "display": "qrcode 2",
-                    "value": 2,
-                  }],
+                onChanged: (value) {
+                  setState(() {
+                    qrCode = value;
+                  });
+                },
+                  dataSource: [
+                    {
+                      "display": "qr 1",
+                      "value": 1,
+                    },
+                    {
+                      "display": "qr 2",
+                      "value": 2,
+                    }
+                  ],
                 textField: 'display',
                 valueField: 'value',
               ),
@@ -209,6 +215,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
                             imgPath: afterImageUrl.text
                         );
                         final creationToCreate = Creation(
+                          qrCode: qrCode,
                             before: before,
                             after: after,
                             ingredients: <Item>[]
