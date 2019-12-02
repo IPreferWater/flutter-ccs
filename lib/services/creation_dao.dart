@@ -61,4 +61,18 @@ class CreationDao {
       return creation;
     }).toList();
   }
+
+  Future<Creation> getByQrCode(String qrCode) async {
+
+    print("getByQrCode");
+
+    final finder = Finder(filter: Filter.equals('qrCode', qrCode));
+
+    final recordSnapshots = await _creationStore.findFirst(
+      await _db,
+      finder: finder,
+    );
+
+    return Creation.fromMap(recordSnapshots.value);
+  }
 }

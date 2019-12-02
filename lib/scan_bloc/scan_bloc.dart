@@ -30,12 +30,12 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     }
   }
 
-  Stream<CreationState> _reloadCreations() async* {
+  Stream<CreationState> _getCreationByQrCode() async* {
     print("we should load the just scanned item");
 
-    /*final creations = await _creationDao.getAllSortedByName();
-    print(creations);
+    final creation = await _creationDao.getByQrCode("1");
+    print(creation);
 
-    yield CreationsLoaded(creations);*/
+    //yield CreationsLoaded(creations);
   }
 }
