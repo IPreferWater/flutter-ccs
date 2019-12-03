@@ -4,8 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:ccs/scan_bloc/scan_event.dart';
 import 'package:ccs/scan_bloc/scan_state.dart';
 import 'package:ccs/services/creation_dao.dart';
-import 'package:ccs/creation_bloc/creation_event.dart';
-import 'package:ccs/creation_bloc/creation_state.dart';
 
 import 'package:ccs/models/Creation.dart';
 import 'package:ccs/models/Item.dart';
@@ -23,19 +21,23 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
   Stream<ScanState> mapEventToState(
       ScanEvent event,
       ) async* {
-    if (event is LoadCreations) {
+    if (event is ScannedCode) {
+
+     Creation creationToLoad = await _getCreationByQrCode(event.qrCode);
       // Indicating that creations are being loaded - display progress indicator.
      // yield CreationsLoading();
      // yield* _reloadCreations();
     }
   }
 
-  Stream<CreationState> _getCreationByQrCode() async* {
+  Future<Creation> _getCreationByQrCode(String qrCode) async {
     print("we should load the just scanned item");
 
     final creation = await _creationDao.getByQrCode("1");
-    print(creation);
-
+    if(creation != null){
+      return creation;
+    }
+    return null;
     //yield CreationsLoaded(creations);
   }
 }
