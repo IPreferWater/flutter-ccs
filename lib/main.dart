@@ -1,4 +1,5 @@
 import 'package:ccs/creation_bloc/bloc.dart';
+import 'package:ccs/scan_bloc/bloc.dart';
 import 'package:ccs/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,17 +10,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      bloc: CreationBloc(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-      ),
-          home: HomePage()
-      ),
+    return
 
-    );
+      BlocProvider(
+        bloc: ScanBloc(),
+        child: BlocProvider(
+          bloc: CreationBloc(),
+          child: MaterialApp(
+              title: 'Flutter Demo',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              home: HomePage()
+          ),
+
+        ),
+      );
   }
 }
 /*
