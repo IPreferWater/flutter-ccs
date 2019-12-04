@@ -62,7 +62,7 @@ class CreationDao {
     }).toList();
   }
 
-  Future<Creation> getByQrCode(String qrCode) async {
+  Future<Creation> getByQrCode(int qrCode) async {
 
     print("getByQrCode");
 
@@ -72,6 +72,13 @@ class CreationDao {
       await _db,
       finder: finder,
     );
+
+    final all = await _creationStore.find(await _db);
+
+
+    if(recordSnapshots==null){
+      return null;
+    }
 
     return Creation.fromMap(recordSnapshots.value);
   }

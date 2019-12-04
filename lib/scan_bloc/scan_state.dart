@@ -9,6 +9,9 @@ abstract class ScanState extends Equatable {
 
 class ScanLoading extends ScanState {}
 
+class ScanFinishSuccess extends ScanState {}
+class ScanFinishError extends ScanState {}
+
 class ScanLoaded extends ScanState {
   final Creation creation;
 

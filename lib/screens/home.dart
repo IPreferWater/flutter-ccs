@@ -1,6 +1,7 @@
 import 'package:before_after/before_after.dart';
 import 'package:ccs/scan_bloc/bloc.dart';
 import 'package:ccs/screens/admin.dart';
+import 'package:ccs/widgets/scan_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  /* ScanBloc _scanBloc;
+   ScanBloc _scanBloc;
 
   @override
   void initState() {
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     _scanBloc = BlocProvider.of<ScanBloc>(context);
 
     //_scanBloc.dispatch(LoadCreations());
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +28,12 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(title: Text('Before After'), centerTitle: true),
       body: Center(
         child: ListView(padding: const EdgeInsets.all(8), children: <Widget>[
-          BeforeAfter(
-            beforeImage: Image.asset('assets/after.jpg'),
-            afterImage: Image.asset('assets/before.jpg'),
+          _beforeAfterWidget(),
+         // ScanScreen(),
+          ScanWidget(
+            context: context,
+            scanBloc: _scanBloc,
           ),
-          ScanScreen(),
           RaisedButton(
               color: Colors.blue,
               textColor: Colors.white,
@@ -47,8 +49,33 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
 
+   Widget _beforeAfterWidget(){
+     return BlocBuilder(
+         bloc: _scanBloc,
+             builder: (BuildContext context, ScanState state){
+           if (state is ScanLoading){
+             return Center(
+               child: CircularProgressIndicator(),
+             );
+           }
+
+           if(state is ScanFinishSuccess){
+             return BeforeAfter(
+               beforeImage: Image.asset('assets/after.jpg'),
+               afterImage: Image.asset('assets/before.jpg'),
+             );
+           }
+
+           if(state is ScanFinishError){
+             return Text("can't find this code");
+           }
+           return Text("error");
+     },
+     );
+   }
+}
+/*
 class ScanScreen extends StatefulWidget {
   @override
   _ScanState createState() => new _ScanState();
@@ -89,6 +116,7 @@ class _ScanState extends State<ScanScreen> {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
+      this.widget.
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
@@ -105,3 +133,4 @@ class _ScanState extends State<ScanScreen> {
     }
   }
 }
+*/

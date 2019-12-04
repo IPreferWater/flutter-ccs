@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:ccs/scan_bloc/scan_event.dart';
 import 'package:ccs/scan_bloc/scan_state.dart';
 import 'package:ccs/services/creation_dao.dart';
-
 import 'package:ccs/models/Creation.dart';
-import 'package:ccs/models/Item.dart';
 
 class ScanBloc extends Bloc<ScanEvent, ScanState> {
   CreationDao _creationDao = CreationDao();
@@ -15,7 +12,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
   @override
   ScanState get initialState => ScanLoading();
 
-
   // This is where we place the logic.
   @override
   Stream<ScanState> mapEventToState(
@@ -23,21 +19,19 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       ) async* {
     if (event is ScannedCode) {
 
-     Creation creationToLoad = await _getCreationByQrCode(event.qrCode);
-      // Indicating that creations are being loaded - display progress indicator.
-     // yield CreationsLoading();
-     // yield* _reloadCreations();
+      //TODO: mocked
+      final creation = await _creationDao.getByQrCode(1);
+       yield* _getCreationByQrCode(creation);
     }
   }
 
-  Future<Creation> _getCreationByQrCode(String qrCode) async {
-    print("we should load the just scanned item");
+  Stream <ScanState> _getCreationByQrCode(Creation creation) async* {
 
-    final creation = await _creationDao.getByQrCode("1");
-    if(creation != null){
-      return creation;
+    if (creation == null) {
+      yield ScanFinishError();
+      return;
     }
-    return null;
-    //yield CreationsLoaded(creations);
+
+    yield ScanFinishSuccess();
   }
 }
