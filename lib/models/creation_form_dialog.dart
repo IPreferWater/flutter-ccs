@@ -108,6 +108,10 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
                     {
                       "display": "qr 2",
                       "value": 2,
+                    },
+                    {
+                      "display": "qr carton",
+                      "value": 3229820100234,
                     }
                   ],
                 textField: 'display',

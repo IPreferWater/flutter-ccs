@@ -19,8 +19,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       ) async* {
     if (event is ScannedCode) {
 
-      //TODO: mocked
-      final creation = await _creationDao.getByQrCode(1);
+      final int qrCode = int.parse(event.qrCode);
+      final creation = await _creationDao.getByQrCode(qrCode);
        yield* _getCreationByQrCode(creation);
     }
   }
