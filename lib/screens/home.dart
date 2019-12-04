@@ -1,59 +1,53 @@
 import 'package:before_after/before_after.dart';
+import 'package:ccs/scan_bloc/bloc.dart';
 import 'package:ccs/screens/admin.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  /* ScanBloc _scanBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _scanBloc = BlocProvider.of<ScanBloc>(context);
+
+    //_scanBloc.dispatch(LoadCreations());
+  }*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Before After'), centerTitle: true),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              flex: 10,
-              child: BeforeAfter(
-                beforeImage: Image.asset('assets/after.jpg'),
-                afterImage: Image.asset('assets/before.jpg'),
-              ),
-            ),
-            Expanded(
-              flex: 4,
-              child: ScanScreen(),
-            ),
-            Expanded(
-              flex: 1,
-              child: RaisedButton(
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  splashColor: Colors.blueGrey,
-                  onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AdminScreen()),
-                    );
-                  },
-                  child: const Text('admin')
-              ),
-            )
-          ],
-        ),
+        child: ListView(padding: const EdgeInsets.all(8), children: <Widget>[
+          BeforeAfter(
+            beforeImage: Image.asset('assets/after.jpg'),
+            afterImage: Image.asset('assets/before.jpg'),
+          ),
+          ScanScreen(),
+          RaisedButton(
+              color: Colors.blue,
+              textColor: Colors.white,
+              splashColor: Colors.blueGrey,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AdminScreen()),
+                );
+              },
+              child: const Text('admin')),
+        ]),
       ),
     );
   }
-
-
-
 }
-
 
 class ScanScreen extends StatefulWidget {
   @override
@@ -70,31 +64,25 @@ class _ScanState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: new Center(
-          child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: RaisedButton(
-                    color: Colors.blue,
-                    textColor: Colors.white,
-                    splashColor: Colors.blueGrey,
-                    onPressed: scan,
-                    child: const Text('START CAMERA SCAN')
-                ),
-              )
-              ,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text(barcode, textAlign: TextAlign.center,),
-              )
-              ,
-            ],
+    return Container(
+        child: ListView(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+        children: <Widget>[
+          RaisedButton(
+              color: Colors.blue,
+              textColor: Colors.white,
+              splashColor: Colors.blueGrey,
+              onPressed: scan,
+              child: const Text('START CAMERA SCAN')
           ),
-        ));
+          Text(
+            barcode,
+            textAlign: TextAlign.center,
+          )
+        ]
+       )
+    );
   }
 
   Future scan() async {
@@ -109,8 +97,9 @@ class _ScanState extends State<ScanScreen> {
       } else {
         setState(() => this.barcode = 'Unknown error: $e');
       }
-    } on FormatException{
-      setState(() => this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)');
+    } on FormatException {
+      setState(() => this.barcode =
+          'null (User returned using the "back"-button before scanning anything. Result)');
     } catch (e) {
       setState(() => this.barcode = 'Unknown error: $e');
     }
