@@ -32,6 +32,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       return;
     }
 
-    yield ScanFinishSuccess();
+    yield ScanFinishSuccess(creation);
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:before_after/before_after.dart';
 import 'package:ccs/scan_bloc/bloc.dart';
 import 'package:ccs/screens/admin.dart';
@@ -61,9 +63,12 @@ class _HomePageState extends State<HomePage> {
            }
 
            if(state is ScanFinishSuccess){
+             final beforeImage = new File(state.creation.before.imgPath);
+             final afterImage = new File(state.creation.after.imgPath);
+
              return BeforeAfter(
-               beforeImage: Image.asset('assets/after.jpg'),
-               afterImage: Image.asset('assets/before.jpg'),
+               beforeImage: Image.file( beforeImage),
+               afterImage: Image.file( afterImage),
              );
            }
 

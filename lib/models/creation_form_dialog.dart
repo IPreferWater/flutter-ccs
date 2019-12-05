@@ -68,16 +68,14 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     if(creation==BEFORE){
-      beforeImageUrl.text = image.absolute.toString();
+      beforeImageUrl.text = image.absolute.path;
       return;
     }
 
     if(creation==AFTER){
-      afterImageUrl.text = image.absolute.toString();
+      afterImageUrl.text = image.absolute.path;
     }
 
-    print("image selected $image");
-    print("image absolute uri =  ${image.absolute}");
   }
 
   dialogContent(BuildContext context) {

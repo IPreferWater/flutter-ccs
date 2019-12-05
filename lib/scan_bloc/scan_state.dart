@@ -9,7 +9,11 @@ abstract class ScanState extends Equatable {
 
 class ScanLoading extends ScanState {}
 
-class ScanFinishSuccess extends ScanState {}
+class ScanFinishSuccess extends ScanState {
+  final Creation creation;
+
+  ScanFinishSuccess(this.creation) : super([creation]);
+}
 class ScanFinishError extends ScanState {}
 
 class ScanLoaded extends ScanState {
