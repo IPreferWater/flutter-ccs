@@ -10,18 +10,16 @@ abstract class CreationEvent extends Equatable {
 
 class LoadCreations extends CreationEvent {}
 
-class AddRandomCreation extends CreationEvent {}
+class CreateCreation extends CreationEvent{
+  final Creation creation;
+
+  CreateCreation(this.creation) : super ([creation]);
+}
 
 class UpdateCreation extends CreationEvent {
   final Creation updatedCreation;
 
   UpdateCreation(this.updatedCreation) : super([updatedCreation]);
-}
-
-class CreateCreation extends CreationEvent{
-  final Creation creation;
-
-  CreateCreation(this.creation) : super ([creation]);
 }
 
 class DeleteCreation extends CreationEvent {
