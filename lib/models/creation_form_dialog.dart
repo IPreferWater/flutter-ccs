@@ -11,10 +11,13 @@ class CreationFormDialog extends StatefulWidget{
 
   final BuildContext context;
   final CreationBloc creationBloc;
+  final Creation creationToUpdate;
 
   CreationFormDialog({
     @required this.context,
     @required this.creationBloc,
+    this.creationToUpdate
+
   });
 
   _CreationFormDialogState createState() => _CreationFormDialogState();
@@ -35,6 +38,22 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
   final afterImageUrl = TextEditingController();
 
   int qrCode;
+
+  @override
+  void initState(){
+    super.initState();
+
+    if(this.widget.creationToUpdate!=null){
+      final Creation creationToUpdate = widget.creationToUpdate;
+      beforeTitle.text = creationToUpdate.before.title;
+      beforeDescription.text = creationToUpdate.before.description;
+      beforeImageUrl.text = creationToUpdate.before.imgPath;
+
+      afterTitle.text = creationToUpdate.after.title;
+      afterDescription.text = creationToUpdate.after.description;
+      afterImageUrl.text = creationToUpdate.after.imgPath;
+    }
+  }
 
 
   Future getImageFromCamera() async {
@@ -209,7 +228,15 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
                             after: after,
                             ingredients: <Item>[]
                         );
-                        widget.creationBloc.dispatch(CreateCreation(creationToCreate));
+
+                        //TODO: make this code correct
+                        if(widget.creationToUpdate!=null){
+                          widget.creationBloc.dispatch(UpdateCreation(creationToCreate));
+                        }else{
+                          widget.creationBloc.dispatch(CreateCreation(creationToCreate));
+                        }
+
+
 
                         Navigator.of(context).pop();
                       }

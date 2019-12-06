@@ -37,8 +37,8 @@ class CreationBloc extends Bloc<CreationEvent, CreationState> {
     } else if (event is UpdateCreation) {
 
       final newCreation = event.updatedCreation;
-      newCreation.id = event.updatedCreation.id;
-      await _creationDao.update(newCreation);
+      //newCreation.id = event.updatedCreation.id;
+      await _creationDao.update(event.updatedCreation);
       yield* _reloadCreations();
 
     } else if (event is DeleteCreation) {

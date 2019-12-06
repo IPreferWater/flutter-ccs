@@ -86,6 +86,7 @@ class _AdminScreenState extends State<AdminScreen> {
               builder: (BuildContext context) => CreationFormDialog(
                 // context: context,
                   creationBloc:_creationBloc,
+                creationToUpdate: displayedCreation,
 
               ),
             );
