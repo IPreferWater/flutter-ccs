@@ -45,6 +45,8 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
 
     if(this.widget.creationToUpdate!=null){
       final Creation creationToUpdate = widget.creationToUpdate;
+      qrCode = creationToUpdate.qrCode;
+
       beforeTitle.text = creationToUpdate.before.title;
       beforeDescription.text = creationToUpdate.before.description;
       beforeImageUrl.text = creationToUpdate.before.imgPath;
@@ -231,6 +233,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
 
                         //TODO: make this code correct
                         if(widget.creationToUpdate!=null){
+                          creationToCreate.id = widget.creationToUpdate.id;
                           widget.creationBloc.dispatch(UpdateCreation(creationToCreate));
                         }else{
                           widget.creationBloc.dispatch(CreateCreation(creationToCreate));
