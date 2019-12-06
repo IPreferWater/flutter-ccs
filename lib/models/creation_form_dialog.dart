@@ -1,7 +1,6 @@
 import 'package:ccs/creation_bloc/bloc.dart';
 import 'package:ccs/creation_bloc/creation_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'Creation.dart';
@@ -36,18 +35,6 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
   final afterImageUrl = TextEditingController();
 
   int qrCode;
-
-  CreationBloc _creationBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    // Obtaining the CreationBloc instance through BlocProvider which is an InheritedWidget
-    _creationBloc = BlocProvider.of<CreationBloc>(context);
-    // Events can be passed into the bloc by calling dispatch.
-    // We want to start loading creations right from the start.
-    _creationBloc.dispatch(LoadCreations());
-  }
 
 
   Future getImageFromCamera() async {
