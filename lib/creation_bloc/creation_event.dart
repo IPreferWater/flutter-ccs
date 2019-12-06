@@ -12,10 +12,10 @@ class LoadCreations extends CreationEvent {}
 
 class AddRandomCreation extends CreationEvent {}
 
-class UpdateWithRandomCreation extends CreationEvent {
+class UpdateCreation extends CreationEvent {
   final Creation updatedCreation;
 
-  UpdateWithRandomCreation(this.updatedCreation) : super([updatedCreation]);
+  UpdateCreation(this.updatedCreation) : super([updatedCreation]);
 }
 
 class CreateCreation extends CreationEvent{

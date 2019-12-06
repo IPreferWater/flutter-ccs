@@ -34,14 +34,13 @@ class CreationBloc extends Bloc<CreationEvent, CreationState> {
       final creations = await _creationDao.getAllSortedByName();
       print("all = $creations");
       yield* _reloadCreations();
-    } else if (event is UpdateWithRandomCreation) {
-      print("event is UpdateWithRandomCreation");
-      final newCreation = RandomCreationGenerator.getRandomCreation();
+    } else if (event is UpdateCreation) {
 
-      // Keeping the ID of the Creation the same
+      final newCreation = event.updatedCreation;
       newCreation.id = event.updatedCreation.id;
       await _creationDao.update(newCreation);
       yield* _reloadCreations();
+
     } else if (event is DeleteCreation) {
       await _creationDao.delete(event.creation);
       yield* _reloadCreations();

@@ -81,7 +81,14 @@ class _AdminScreenState extends State<AdminScreen> {
         IconButton(
           icon: Icon(Icons.refresh),
           onPressed: () {
-            _creationBloc.dispatch(DeleteCreation(displayedCreation));
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => CreationFormDialog(
+                // context: context,
+                  creationBloc:_creationBloc,
+
+              ),
+            );
           },
         ),
         IconButton(
