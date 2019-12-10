@@ -10,6 +10,14 @@ class AdminScreen extends StatefulWidget {
 
 class _AdminScreenState extends State<AdminScreen> {
   CreationBloc _creationBloc;
+  int _selectedMenu = 0;
+
+  void _selectAdminMenu(int choice) {
+    // Causes the app to rebuild with the new _selectedChoice.
+    setState(() {
+      _selectedMenu = choice;
+    });
+  }
 
   @override
   void initState() {
@@ -26,6 +34,21 @@ class _AdminScreenState extends State<AdminScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Creation app'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.directions_car),
+            onPressed: () {
+              _selectAdminMenu(0);
+            },
+          ),
+          // action button
+          IconButton(
+            icon: Icon(Icons.directions_bike),
+            onPressed: () {
+              _selectAdminMenu(1);
+            },
+          ),
+        ],
       ),
       body: _buildBody(),
       floatingActionButton: FloatingActionButton(
@@ -34,9 +57,7 @@ class _AdminScreenState extends State<AdminScreen> {
           showDialog(
             context: context,
             builder: (BuildContext context) => CreationFormDialog(
-              context: context,
-              creationBloc:_creationBloc
-            ),
+                context: context, creationBloc: _creationBloc),
           );
         },
       ),
@@ -44,6 +65,21 @@ class _AdminScreenState extends State<AdminScreen> {
   }
 
   Widget _buildBody() {
+    if (_selectedMenu == 0){
+      return _creationMenu();
+    }
+
+    if (_selectedMenu == 1){
+      return _qrMenu();
+    }
+    return Text("please select menu");
+  }
+
+  Widget _qrMenu() {
+    return Text("todo");
+  }
+
+  Widget _creationMenu() {
     return BlocBuilder(
       bloc: _creationBloc,
       // Whenever there is a new state emitted from the bloc, builder runs.
@@ -59,7 +95,8 @@ class _AdminScreenState extends State<AdminScreen> {
               final displayedCreation = state.creations[index];
               return ListTile(
                 title: Text(displayedCreation.id.toString()),
-                subtitle: Text('qr code : ${displayedCreation.qrCode} before : ${displayedCreation.before.title} after : ${displayedCreation.after.title}'),
+                subtitle: Text(
+                    'qr code : ${displayedCreation.qrCode} before : ${displayedCreation.before.title} after : ${displayedCreation.after.title}'),
                 trailing: _buildUpdateDeleteButtons(displayedCreation),
               );
             },
@@ -85,9 +122,8 @@ class _AdminScreenState extends State<AdminScreen> {
               context: context,
               builder: (BuildContext context) => CreationFormDialog(
                 // context: context,
-                  creationBloc:_creationBloc,
+                creationBloc: _creationBloc,
                 creationToUpdate: displayedCreation,
-
               ),
             );
           },
@@ -101,7 +137,4 @@ class _AdminScreenState extends State<AdminScreen> {
       ],
     );
   }
-
-
 }
-
