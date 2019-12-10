@@ -41,7 +41,6 @@ class _AdminScreenState extends State<AdminScreen> {
               _selectAdminMenu(0);
             },
           ),
-          // action button
           IconButton(
             icon: Icon(Icons.directions_bike),
             onPressed: () {
@@ -51,16 +50,6 @@ class _AdminScreenState extends State<AdminScreen> {
         ],
       ),
       body: _buildBody(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => CreationFormDialog(
-                context: context, creationBloc: _creationBloc),
-          );
-        },
-      ),
     );
   }
 
@@ -89,18 +78,34 @@ class _AdminScreenState extends State<AdminScreen> {
             child: CircularProgressIndicator(),
           );
         } else if (state is CreationsLoaded) {
-          return ListView.builder(
+          return
+            Column(
+                children: <Widget>[
+            ListView.builder(
+              shrinkWrap: true,
             itemCount: state.creations.length,
-            itemBuilder: (context, index) {
-              final displayedCreation = state.creations[index];
-              return ListTile(
-                title: Text(displayedCreation.id.toString()),
-                subtitle: Text(
-                    'qr code : ${displayedCreation.qrCode} before : ${displayedCreation.before.title} after : ${displayedCreation.after.title}'),
-                trailing: _buildUpdateDeleteButtons(displayedCreation),
-              );
-            },
-          );
+              itemBuilder: (context, index) {
+                final displayedCreation = state.creations[index];
+                return ListTile(
+                  title: Text(displayedCreation.id.toString()),
+                  subtitle: Text(
+                      'qr code : ${displayedCreation.qrCode} before : ${displayedCreation.before.title} after : ${displayedCreation.after.title}'),
+                  trailing: _buildUpdateDeleteButtons(displayedCreation),
+                );
+              },
+            ),
+                  FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => CreationFormDialog(
+                            context: context, creationBloc: _creationBloc),
+                      );
+                    },
+                  )
+                  ]
+            );
         }
         return Center(
             child: Text(
