@@ -1,4 +1,6 @@
 import 'package:ccs/models/creation_form_dialog.dart';
+import 'package:ccs/qrcode_bloc/bloc.dart';
+import 'package:ccs/widgets/qrcode_form_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ccs/models/Creation.dart';
@@ -10,6 +12,7 @@ class AdminScreen extends StatefulWidget {
 
 class _AdminScreenState extends State<AdminScreen> {
   CreationBloc _creationBloc;
+  QrCodeBloc _qrCodeBloc;
   int _selectedMenu = 0;
 
   void _selectAdminMenu(int choice) {
@@ -22,11 +25,14 @@ class _AdminScreenState extends State<AdminScreen> {
   @override
   void initState() {
     super.initState();
-    // Obtaining the CreationBloc instance through BlocProvider which is an InheritedWidget
     _creationBloc = BlocProvider.of<CreationBloc>(context);
     // Events can be passed into the bloc by calling dispatch.
     // We want to start loading creations right from the start.
     _creationBloc.dispatch(LoadCreations());
+
+
+    _qrCodeBloc = BlocProvider.of<QrCodeBloc>(context);
+    //_qrCodeBloc.dispatch(LoadQrCodes());
   }
 
   @override
@@ -65,7 +71,51 @@ class _AdminScreenState extends State<AdminScreen> {
   }
 
   Widget _qrMenu() {
-    return Text("todo");
+    return BlocBuilder(
+      bloc: _qrCodeBloc,
+      builder: (BuildContext context, QrCodeState state) {
+      if (state is QrCodeLoading) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+
+      if (state is QrCodeLoaded) {
+        return Column(
+          children: <Widget>[
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: state.qrCode.length,
+              itemBuilder: (context, index){
+                final displayedQrCode = state.qrCode[index];
+                return ListTile(
+                  title: Text(displayedQrCode.id.toString()),
+                  subtitle: Text('${displayedQrCode.label}'),
+                 // trailing: ,
+                );
+              },
+            ),
+            FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => QrCodeFormDialog(
+                      context: context, qrCodeBloc: _qrCodeBloc),
+                );
+              },
+            )
+          ],
+        );
+      }
+
+        return Center(
+            child: Text(
+              "error ?",
+              textAlign: TextAlign.center,
+            ));
+      },
+    );
   }
 
   Widget _creationMenu() {
@@ -90,7 +140,7 @@ class _AdminScreenState extends State<AdminScreen> {
                   title: Text(displayedCreation.id.toString()),
                   subtitle: Text(
                       'qr code : ${displayedCreation.qrCode} before : ${displayedCreation.before.title} after : ${displayedCreation.after.title}'),
-                  trailing: _buildUpdateDeleteButtons(displayedCreation),
+                  trailing: _buildUpdateDeleteCreations(displayedCreation),
                 );
               },
             ),
@@ -116,7 +166,7 @@ class _AdminScreenState extends State<AdminScreen> {
     );
   }
 
-  Row _buildUpdateDeleteButtons(Creation displayedCreation) {
+  Row _buildUpdateDeleteCreations(Creation displayedCreation) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

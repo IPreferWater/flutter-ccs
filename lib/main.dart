@@ -1,4 +1,5 @@
 import 'package:ccs/creation_bloc/bloc.dart';
+import 'package:ccs/qrcode_bloc/bloc.dart';
 import 'package:ccs/scan_bloc/bloc.dart';
 import 'package:ccs/screens/home.dart';
 import 'package:flutter/material.dart';
@@ -14,17 +15,20 @@ class MyApp extends StatelessWidget {
 
       BlocProvider(
         bloc: ScanBloc(),
-        child: BlocProvider(
-          bloc: CreationBloc(),
-          child: MaterialApp(
-              title: 'Flutter Demo',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
-              ),
-              home: HomePage()
-          ),
+       child: BlocProvider(
+         bloc: QrCodeBloc(),
+         child: BlocProvider(
+           bloc: CreationBloc(),
+           child: MaterialApp(
+               title: 'Flutter Demo',
+               theme: ThemeData(
+                 primarySwatch: Colors.blue,
+               ),
+               home: HomePage()
+           ),
 
-        ),
+         ),
+       )
       );
   }
 }

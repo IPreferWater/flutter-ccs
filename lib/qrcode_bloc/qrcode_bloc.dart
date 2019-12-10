@@ -1,13 +1,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:ccs/models/qrcode.dart';
-import 'package:ccs/qrcode_bloc/bloc.dart' as prefix0;
 import 'package:ccs/qrcode_bloc/qrcode_event.dart';
 import 'package:ccs/qrcode_bloc/qrcode_state.dart';
-import 'package:ccs/scan_bloc/scan_event.dart';
-import 'package:ccs/scan_bloc/scan_state.dart';
 import 'package:ccs/services/creation_dao.dart';
-import 'package:ccs/models/Creation.dart';
 
 class QrCodeBloc extends Bloc<QrCodeEvent, QrCodeState> {
   CreationDao _creationDao = CreationDao();
