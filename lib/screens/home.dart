@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _scanBloc = BlocProvider.of<ScanBloc>(context);
 
-    //_scanBloc.dispatch(LoadCreations());
+    //_scanBloc.dispatch(ScanWaiting());
   }
 
   @override
@@ -56,6 +56,12 @@ class _HomePageState extends State<HomePage> {
      return BlocBuilder(
          bloc: _scanBloc,
              builder: (BuildContext context, ScanState state){
+               if (state is ScanWaiting){
+                 return Text(
+                   "let's scan !",
+                 );
+               }
+
            if (state is ScanLoading){
              return Center(
                child: CircularProgressIndicator(),

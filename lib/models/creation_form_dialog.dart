@@ -1,6 +1,8 @@
 import 'package:ccs/creation_bloc/bloc.dart';
 import 'package:ccs/creation_bloc/creation_bloc.dart';
+import 'package:ccs/qrcode_bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'Creation.dart';
@@ -9,13 +11,16 @@ import 'dropdown_formfield.dart';
 
 class CreationFormDialog extends StatefulWidget{
 
-  final BuildContext context;
+ // final BuildContext context;
   final CreationBloc creationBloc;
+  final QrCodeBloc qrCodeBloc;
+
   final Creation creationToUpdate;
 
   CreationFormDialog({
-    @required this.context,
+   // @required this.context,
     @required this.creationBloc,
+    @required this.qrCodeBloc,
     this.creationToUpdate
 
   });
@@ -92,37 +97,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
         child: ListView(
             padding: const EdgeInsets.all(8),
             children: <Widget>[
-              DropDownFormField(
-                titleText: 'My workout',
-                hintText: 'Please choose one',
-                value: qrCode,
-                onSaved: (value) {
-                  setState(() {
-                    qrCode = value;
-                  });
-                },
-                onChanged: (value) {
-                  setState(() {
-                    qrCode = value;
-                  });
-                },
-                  dataSource: [
-                    {
-                      "display": "qr 1",
-                      "value": 1,
-                    },
-                    {
-                      "display": "qr 2",
-                      "value": 2,
-                    },
-                    {
-                      "display": "qr carton",
-                      "value": 3229820100234,
-                    }
-                  ],
-                textField: 'display',
-                valueField: 'value',
-              ),
+              _buildQrCodeDropDown(),
               //before item
               TextFormField(
                 controller: beforeTitle,
@@ -249,6 +224,92 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
             ]
         )
     );
+  }
+
+  Widget _buildQrCodeDropDown(){
+
+   return BlocBuilder(
+       bloc: widget.qrCodeBloc,
+       builder: (BuildContext context, QrCodeState state) {
+         if (state is QrCodeLoading) {
+           return Center(
+             child: CircularProgressIndicator(),
+           );
+         }
+
+         if (state is QrCodeLoaded) {
+           return DropDownFormField(
+             titleText: 'My workout',
+             hintText: 'Please choose one',
+             value: qrCode,
+             onSaved: (value) {
+               setState(() {
+                 qrCode = value;
+               });
+             },
+             onChanged: (value) {
+               setState(() {
+                 qrCode = value;
+               });
+             },
+
+             dataSource: [
+               {
+                 "display": "qr 1",
+                 "value": 1,
+               },
+               {
+                 "display": "qr 2",
+                 "value": 2,
+               },
+               {
+                 "display": "qr carton",
+                 "value": 3229820100234,
+               }
+             ],
+             textField: 'display',
+             valueField: 'value',
+           );
+         }
+
+         return Center(
+             child: Text(
+               "can't load the qr codes in database ...",
+               textAlign: TextAlign.center,
+             ));
+       }
+     /*DropDownFormField(
+      titleText: 'My workout',
+      hintText: 'Please choose one',
+      value: qrCode,
+      onSaved: (value) {
+        setState(() {
+          qrCode = value;
+        });
+      },
+      onChanged: (value) {
+        setState(() {
+          qrCode = value;
+        });
+      },
+      dataSource: [
+        {
+          "display": "qr 1",
+          "value": 1,
+        },
+        {
+          "display": "qr 2",
+          "value": 2,
+        },
+        {
+          "display": "qr carton",
+          "value": 3229820100234,
+        }
+      ],
+      textField: 'display',
+      valueField: 'value',
+    )*/
+   );
   }
 
 }

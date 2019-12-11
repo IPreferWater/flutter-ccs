@@ -10,7 +10,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
   // Display a loading indicator right from the start of the app
   @override
-  ScanState get initialState => ScanLoading();
+  ScanState get initialState => ScanWaiting();
 
   // This is where we place the logic.
   @override

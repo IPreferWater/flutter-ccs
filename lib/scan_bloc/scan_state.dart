@@ -7,6 +7,8 @@ abstract class ScanState extends Equatable {
   ScanState([List props = const []]) : super(props);
 }
 
+class ScanWaiting extends ScanState {}
+
 class ScanLoading extends ScanState {}
 
 class ScanFinishSuccess extends ScanState {

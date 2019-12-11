@@ -152,7 +152,10 @@ class _AdminScreenState extends State<AdminScreen> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) => CreationFormDialog(
-                            context: context, creationBloc: _creationBloc),
+                            //context: context,
+                            creationBloc: _creationBloc,
+                          qrCodeBloc: _qrCodeBloc,
+                            ),
                       );
                     },
                   )
@@ -206,6 +209,7 @@ class _AdminScreenState extends State<AdminScreen> {
               builder: (BuildContext context) => CreationFormDialog(
                 // context: context,
                 creationBloc: _creationBloc,
+                qrCodeBloc: _qrCodeBloc,
                 creationToUpdate: displayedCreation,
               ),
             );
