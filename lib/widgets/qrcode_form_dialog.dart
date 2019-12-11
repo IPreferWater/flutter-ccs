@@ -1,4 +1,5 @@
 import 'package:ccs/models/qrcode.dart';
+import 'package:ccs/qrcode_bloc/bloc.dart';
 import 'package:ccs/qrcode_bloc/qrcode_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,8 @@ class QrCodeFormDialog extends StatefulWidget{
 class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
 
   final _formKey = GlobalKey<FormState>();
+  final qrCodeInput = TextEditingController();
+  final label = TextEditingController();
   /*final beforeTitle = TextEditingController();
   final beforeDescription = TextEditingController();
   final beforeImageUrl = TextEditingController();
@@ -65,18 +68,29 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
         child: ListView(
             padding: const EdgeInsets.all(8),
             children: <Widget>[
-              //before item
-              /*TextFormField(
-                controller: beforeTitle,
+              TextFormField(
+                controller: qrCodeInput,
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  icon: Icon(Icons.person),
-                  hintText: 'Title of the before item',
-                  labelText: 'Title',
+                  icon: Icon(Icons.pages),
+                  hintText: 'tape manually the code',
+                  labelText: 'qr code',
                 ),
                 validator: (String value) {
                   return value.isEmpty ? 'must not be empty' : null;
                 },
-              ),*/
+              ),
+              TextFormField(
+                controller: label,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.label),
+                  hintText: 'label to display for this code',
+                  labelText: 'label',
+                ),
+                validator: (String value) {
+                  return value.isEmpty ? 'must not be empty' : null;
+                },
+              ),
               Column(
                 children: <Widget>[
                  /* RaisedButton(
@@ -98,6 +112,12 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
                             description: beforeDescription.text,
                             imgPath: beforeImageUrl.text
                         );*/
+
+                        final qrCodeInt = int.parse(qrCodeInput.text);
+
+                       final qrCodeToCreate = QrCode(qrCode: qrCodeInt, label: label.text);
+
+                       widget.qrCodeBloc.dispatch(CreateQrCode(qrCodeToCreate));
 
                         //TODO: make this code correct
                         /*if(widget.qrCodeToUpdate!=null){

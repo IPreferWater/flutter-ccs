@@ -31,10 +31,10 @@ class QrCodeDao {
     );
   }
 
-  Future<List<QrCode>> getAllSortedByName() async {
+  Future<List<QrCode>> getAllSortedById() async {
 
     final finder = Finder(sortOrders: [
-      SortOrder('label'),
+      SortOrder('id'),
     ]);
 
     final recordSnapshots = await _qrCodeStore.find(

@@ -32,7 +32,7 @@ class _AdminScreenState extends State<AdminScreen> {
 
 
     _qrCodeBloc = BlocProvider.of<QrCodeBloc>(context);
-    //_qrCodeBloc.dispatch(LoadQrCodes());
+    _qrCodeBloc.dispatch(LoadQrCodes());
   }
 
   @override
