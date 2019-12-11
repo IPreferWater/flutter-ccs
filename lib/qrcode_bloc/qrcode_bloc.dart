@@ -32,16 +32,13 @@ class QrCodeBloc extends Bloc<QrCodeEvent, QrCodeState> {
     }
 
     else if (event is DeleteQrCode){
-      //todo
+      await _qrCodeDao.delete(event.qrCode);
+      yield* _reloadQrCode();
     }
   }
 
   Stream<QrCodeState> _reloadQrCode() async* {
-    print("event is _reloadCreations");
-
     final qrCodes = await _qrCodeDao.getAllSortedById();
-    //final qrCodes = List<QrCode>();
-    // Yielding a state bundled with the Creations from the database.
     yield QrCodeLoaded(qrCodes);
   }
 }

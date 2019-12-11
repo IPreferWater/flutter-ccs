@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 
 class QrCodeFormDialog extends StatefulWidget{
 
-  final BuildContext context;
+  //final BuildContext context;
   final QrCodeBloc qrCodeBloc;
   final QrCode qrCodeToUpdate;
 
   QrCodeFormDialog({
-    @required this.context,
+    //@required this.context,
     @required this.qrCodeBloc,
     this.qrCodeToUpdate
 

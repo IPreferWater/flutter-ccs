@@ -1,4 +1,5 @@
 import 'package:ccs/models/creation_form_dialog.dart';
+import 'package:ccs/models/qrcode.dart';
 import 'package:ccs/qrcode_bloc/bloc.dart';
 import 'package:ccs/widgets/qrcode_form_dialog.dart';
 import 'package:flutter/material.dart';
@@ -90,8 +91,8 @@ class _AdminScreenState extends State<AdminScreen> {
                 final displayedQrCode = state.qrCode[index];
                 return ListTile(
                   title: Text(displayedQrCode.id.toString()),
-                  subtitle: Text('${displayedQrCode.label}'),
-                 // trailing: ,
+                  subtitle: Text('${displayedQrCode.label} (${displayedQrCode.qrCode})'),
+                  trailing: _buildUpdateDeleteQrCode(displayedQrCode),
                 );
               },
             ),
@@ -101,7 +102,8 @@ class _AdminScreenState extends State<AdminScreen> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) => QrCodeFormDialog(
-                      context: context, qrCodeBloc: _qrCodeBloc),
+                      //context: context,
+                      qrCodeBloc: _qrCodeBloc),
                 );
               },
             )
@@ -163,6 +165,32 @@ class _AdminScreenState extends State<AdminScreen> {
           textAlign: TextAlign.center,
         ));
       },
+    );
+  }
+
+  Row _buildUpdateDeleteQrCode(QrCode qrCodeDisplayed){
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        IconButton(
+          icon: Icon(Icons.refresh),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => QrCodeFormDialog(
+                qrCodeBloc: _qrCodeBloc,
+               qrCodeToUpdate: qrCodeDisplayed,
+              ),
+            );
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.delete_outline),
+          onPressed: () {
+            _qrCodeBloc.dispatch(DeleteQrCode(qrCodeDisplayed));
+          },
+        ),
+      ],
     );
   }
 
