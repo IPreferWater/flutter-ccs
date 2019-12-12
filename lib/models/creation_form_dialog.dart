@@ -1,5 +1,6 @@
 import 'package:ccs/creation_bloc/bloc.dart';
 import 'package:ccs/creation_bloc/creation_bloc.dart';
+import 'package:ccs/models/qrcode.dart';
 import 'package:ccs/qrcode_bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -227,6 +228,16 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
   }
 
   Widget _buildQrCodeDropDown(){
+    
+    List<Map<String, Object>> ok(List<QrCode> qrCodes){
+      var qrCodeMapped = List<Map<String, Object>>();
+
+      qrCodes.forEach((qrCode) =>
+          qrCodeMapped.add({"display": qrCode.label ,"value": qrCode.id})
+      );
+
+      return qrCodeMapped;
+    }
 
    return BlocBuilder(
        bloc: widget.qrCodeBloc,
@@ -239,7 +250,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
 
          if (state is QrCodeLoaded) {
            return DropDownFormField(
-             titleText: 'My workout',
+             titleText: 'qr code',
              hintText: 'Please choose one',
              value: qrCode,
              onSaved: (value) {
@@ -252,21 +263,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
                  qrCode = value;
                });
              },
-
-             dataSource: [
-               {
-                 "display": "qr 1",
-                 "value": 1,
-               },
-               {
-                 "display": "qr 2",
-                 "value": 2,
-               },
-               {
-                 "display": "qr carton",
-                 "value": 3229820100234,
-               }
-             ],
+           dataSource: ok(state.qrCode),
              textField: 'display',
              valueField: 'value',
            );
