@@ -69,18 +69,22 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
     );
   }
 
+  Widget _scanButton(){
+    return RaisedButton(
+        color: Colors.blue,
+        textColor: Colors.white,
+        splashColor: Colors.blueGrey,
+        onPressed: scan,
+        child: const Text('START CAMERA SCAN')
+    );
+  }
+
   Widget _buildQrCodeFormField(){
     return BlocBuilder(
       bloc: _scanBloc,
       builder: (BuildContext context, ScanState state){
         if (state is ScanWaiting){
-         return RaisedButton(
-              color: Colors.blue,
-              textColor: Colors.white,
-              splashColor: Colors.blueGrey,
-              onPressed: scan,
-              child: const Text('START CAMERA SCAN')
-          );
+         return _scanButton();
         }
 
         if (state is ScanLoading){
@@ -90,13 +94,26 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
         }
 
         if(state is ScanFinishSuccess){
-          return Text(
-            "done",
-          );
+          return
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text("the code scanned is already taken",)
+                ),
+                Expanded(child: _scanButton()),
+              ],
+            );
         }
 
         if(state is ScanFinishError){
-          return Text("can't find this code");
+          return             Row(
+            children: <Widget>[
+              Expanded(
+                  child: Text("the code scanned is free",)
+              ),
+              Expanded(child: _scanButton()),
+            ],
+          );
         }
         return Text("error");
       },
