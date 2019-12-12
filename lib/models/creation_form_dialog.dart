@@ -233,7 +233,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
       var qrCodeMapped = List<Map<String, Object>>();
 
       qrCodes.forEach((qrCode) =>
-          qrCodeMapped.add({"display": qrCode.label ,"value": qrCode.id})
+          qrCodeMapped.add({"display": qrCode.label ,"value": qrCode.qrCode})
       );
 
       return qrCodeMapped;

@@ -103,7 +103,8 @@ class _AdminScreenState extends State<AdminScreen> {
                   context: context,
                   builder: (BuildContext context) => QrCodeFormDialog(
                       //context: context,
-                      qrCodeBloc: _qrCodeBloc),
+                      qrCodeBloc: _qrCodeBloc,
+                      ),
                 );
               },
             )
