@@ -1,4 +1,6 @@
-import 'package:ccs/models/creation_form_dialog.dart';
+
+import 'package:ccs/assets/ccs_icon.dart';
+import 'package:ccs/widgets/creation_form_dialog.dart';
 import 'package:ccs/models/qrcode.dart';
 import 'package:ccs/qrcode_bloc/bloc.dart';
 import 'package:ccs/widgets/qrcode_form_dialog.dart';
@@ -17,7 +19,6 @@ class _AdminScreenState extends State<AdminScreen> {
   int _selectedMenu = 0;
 
   void _selectAdminMenu(int choice) {
-    // Causes the app to rebuild with the new _selectedChoice.
     setState(() {
       _selectedMenu = choice;
     });
@@ -27,10 +28,7 @@ class _AdminScreenState extends State<AdminScreen> {
   void initState() {
     super.initState();
     _creationBloc = BlocProvider.of<CreationBloc>(context);
-    // Events can be passed into the bloc by calling dispatch.
-    // We want to start loading creations right from the start.
     _creationBloc.dispatch(LoadCreations());
-
 
     _qrCodeBloc = BlocProvider.of<QrCodeBloc>(context);
     _qrCodeBloc.dispatch(LoadQrCodes());
@@ -43,13 +41,13 @@ class _AdminScreenState extends State<AdminScreen> {
         title: Text('Creation app'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.directions_car),
+            icon: Icon(Icons.description),
             onPressed: () {
               _selectAdminMenu(0);
             },
           ),
           IconButton(
-            icon: Icon(Icons.directions_bike),
+            icon: Icon(CcsIcon.barcode),
             onPressed: () {
               _selectAdminMenu(1);
             },
@@ -101,10 +99,7 @@ class _AdminScreenState extends State<AdminScreen> {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (BuildContext context) => QrCodeFormDialog(
-                      //context: context,
-                      qrCodeBloc: _qrCodeBloc,
-                      ),
+                  builder: (BuildContext context) => QrCodeFormDialog(),
                 );
               },
             )
@@ -152,11 +147,7 @@ class _AdminScreenState extends State<AdminScreen> {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext context) => CreationFormDialog(
-                            //context: context,
-                            creationBloc: _creationBloc,
-                          qrCodeBloc: _qrCodeBloc,
-                            ),
+                        builder: (BuildContext context) => CreationFormDialog(),
                       );
                     },
                   )
@@ -177,12 +168,11 @@ class _AdminScreenState extends State<AdminScreen> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         IconButton(
-          icon: Icon(Icons.refresh),
+          icon: Icon(Icons.edit),
           onPressed: () {
             showDialog(
               context: context,
               builder: (BuildContext context) => QrCodeFormDialog(
-                qrCodeBloc: _qrCodeBloc,
                qrCodeToUpdate: qrCodeDisplayed,
               ),
             );
@@ -203,14 +193,11 @@ class _AdminScreenState extends State<AdminScreen> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         IconButton(
-          icon: Icon(Icons.refresh),
+          icon: Icon(Icons.edit),
           onPressed: () {
             showDialog(
               context: context,
               builder: (BuildContext context) => CreationFormDialog(
-                // context: context,
-                creationBloc: _creationBloc,
-                qrCodeBloc: _qrCodeBloc,
                 creationToUpdate: displayedCreation,
               ),
             );

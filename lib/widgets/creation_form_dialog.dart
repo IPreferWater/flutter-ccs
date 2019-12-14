@@ -6,24 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'Creation.dart';
-import 'Item.dart';
+import '../models/Creation.dart';
+import '../models/Item.dart';
 import 'dropdown_formfield.dart';
 
 class CreationFormDialog extends StatefulWidget{
 
- // final BuildContext context;
-  final CreationBloc creationBloc;
-  final QrCodeBloc qrCodeBloc;
-
   final Creation creationToUpdate;
 
   CreationFormDialog({
-   // @required this.context,
-    @required this.creationBloc,
-    @required this.qrCodeBloc,
     this.creationToUpdate
-
   });
 
   _CreationFormDialogState createState() => _CreationFormDialogState();
@@ -31,6 +23,9 @@ class CreationFormDialog extends StatefulWidget{
 
 }
 class _CreationFormDialogState extends State<CreationFormDialog> {
+
+  CreationBloc _creationBloc;
+  QrCodeBloc _qrCodeBloc;
 
   final String BEFORE = "before";
   final String AFTER = "after";
@@ -48,6 +43,12 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
   @override
   void initState(){
     super.initState();
+
+    _creationBloc = BlocProvider.of<CreationBloc>(context);
+    _creationBloc.dispatch(LoadCreations());
+
+    _qrCodeBloc = BlocProvider.of<QrCodeBloc>(context);
+    _qrCodeBloc.dispatch(LoadQrCodes());
 
     if(this.widget.creationToUpdate!=null){
       final Creation creationToUpdate = widget.creationToUpdate;
@@ -210,13 +211,10 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
                         //TODO: make this code correct
                         if(widget.creationToUpdate!=null){
                           creationToCreate.id = widget.creationToUpdate.id;
-                          widget.creationBloc.dispatch(UpdateCreation(creationToCreate));
+                          _creationBloc.dispatch(UpdateCreation(creationToCreate));
                         }else{
-                          widget.creationBloc.dispatch(CreateCreation(creationToCreate));
+                          _creationBloc.dispatch(CreateCreation(creationToCreate));
                         }
-
-
-
                         Navigator.of(context).pop();
                       }
                     },
@@ -240,7 +238,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
     }
 
    return BlocBuilder(
-       bloc: widget.qrCodeBloc,
+       bloc: _qrCodeBloc,
        builder: (BuildContext context, QrCodeState state) {
          if (state is QrCodeLoading) {
            return Center(
@@ -275,37 +273,6 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
                textAlign: TextAlign.center,
              ));
        }
-     /*DropDownFormField(
-      titleText: 'My workout',
-      hintText: 'Please choose one',
-      value: qrCode,
-      onSaved: (value) {
-        setState(() {
-          qrCode = value;
-        });
-      },
-      onChanged: (value) {
-        setState(() {
-          qrCode = value;
-        });
-      },
-      dataSource: [
-        {
-          "display": "qr 1",
-          "value": 1,
-        },
-        {
-          "display": "qr 2",
-          "value": 2,
-        },
-        {
-          "display": "qr carton",
-          "value": 3229820100234,
-        }
-      ],
-      textField: 'display',
-      valueField: 'value',
-    )*/
    );
   }
 

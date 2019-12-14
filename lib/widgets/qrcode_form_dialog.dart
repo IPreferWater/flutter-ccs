@@ -9,15 +9,10 @@ import 'package:flutter/services.dart';
 
 class QrCodeFormDialog extends StatefulWidget{
 
-  //final BuildContext context;
-  final QrCodeBloc qrCodeBloc;
   final QrCode qrCodeToUpdate;
 
   QrCodeFormDialog({
-    //@required this.context,
-    @required this.qrCodeBloc,
     this.qrCodeToUpdate
-
   });
 
   _QrCodeFormDialogState createState() => _QrCodeFormDialogState();
@@ -27,24 +22,18 @@ class QrCodeFormDialog extends StatefulWidget{
 class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
 
   ScanBloc _scanBloc;
+  QrCodeBloc _qrCodeBloc;
+
   final _formKey = GlobalKey<FormState>();
   final qrCodeInput = TextEditingController();
   final label = TextEditingController();
-  /*final beforeTitle = TextEditingController();
-  final beforeDescription = TextEditingController();
-  final beforeImageUrl = TextEditingController();
-
-  final afterTitle = TextEditingController();
-  final afterDescription = TextEditingController();
-  final afterImageUrl = TextEditingController();
-
-  int qrCode;*/
 
   @override
   void initState(){
     super.initState();
 
     _scanBloc = BlocProvider.of<ScanBloc>(context);
+    _qrCodeBloc = BlocProvider.of<QrCodeBloc>(context);
 
     if(this.widget.qrCodeToUpdate!=null){
      /* final Creation creationToUpdate = widget.qrCodeToUpdate;
@@ -195,7 +184,7 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
 
                        final qrCodeToCreate = QrCode(qrCode: qrCodeInt, label: label.text);
 
-                       widget.qrCodeBloc.dispatch(CreateQrCode(qrCodeToCreate));
+                        _qrCodeBloc.dispatch(CreateQrCode(qrCodeToCreate));
 
                         //TODO: make this code correct
                         /*if(widget.qrCodeToUpdate!=null){
