@@ -29,7 +29,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         yield ScanFinishNotFound();
       }
 
-      final creation = await _creationDao.getByQrCode(qrCode.id);
+      final creation = await _creationDao.getByQrCodeId(qrCode.id);
 
       if (creation == null) {
         yield ScanFinishNotFound();

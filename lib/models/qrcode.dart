@@ -19,7 +19,6 @@ class QrCode {
   }
 
   static QrCode fromMap(Map<String, dynamic> map) {
-
     return QrCode(
       serial : map['serial'],
       label: map['label']

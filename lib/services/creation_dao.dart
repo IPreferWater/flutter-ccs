@@ -40,17 +40,17 @@ class CreationDao {
     );
   }
 
-  Future<List<Creation>> getAllSortedByName() async {
+  Future<List<Creation>> getAll() async {
 
-    print("getAllSorted");
-    // Finder object can also sort data.
-    final finder = Finder(sortOrders: [
+    print("getAll");
+
+    /*final finder = Finder(sortOrders: [
       SortOrder('name'),
-    ]);
+    ]);*/
 
     final recordSnapshots = await _creationStore.find(
       await _db,
-      finder: finder,
+     // finder: finder,
     );
 
     // Making a List<Creation> out of List<RecordSnapshot>
@@ -62,7 +62,7 @@ class CreationDao {
     }).toList();
   }
 
-  Future<Creation> getByQrCode(int qrCodeId) async {
+  Future<Creation> getByQrCodeId(int qrCodeId) async {
 
     print("getByQrCode");
 
@@ -79,8 +79,7 @@ class CreationDao {
     if(recordSnapshots==null){
       return null;
     }
-    /*final Creation creation = Creation.fromMap(recordSnapshots.value);
-    creation.id = recordSnapshots.key;*/
+
     return Creation.fromMap(recordSnapshots.value);
   }
 }

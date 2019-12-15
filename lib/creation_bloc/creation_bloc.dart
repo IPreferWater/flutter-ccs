@@ -37,7 +37,7 @@ class CreationBloc extends Bloc<CreationEvent, CreationState> {
   Stream<CreationState> _reloadCreations() async* {
     print("event is _reloadCreations");
 
-    final creations = await _creationDao.getAllSortedByName();
+    final creations = await _creationDao.getAll();
     print(creations);
     // Yielding a state bundled with the Creations from the database.
     yield CreationsLoaded(creations);
