@@ -62,11 +62,11 @@ class CreationDao {
     }).toList();
   }
 
-  Future<Creation> getByQrCode(int qrCode) async {
+  Future<Creation> getByQrCode(int qrCodeId) async {
 
     print("getByQrCode");
 
-    final finder = Finder(filter: Filter.equals('qrCode', qrCode));
+    final finder = Finder(filter: Filter.equals('qrCodeId', qrCodeId));
 
     final recordSnapshots = await _creationStore.findFirst(
       await _db,
@@ -74,12 +74,13 @@ class CreationDao {
     );
 
     final all = await _creationStore.find(await _db);
-
+    print(all);
 
     if(recordSnapshots==null){
       return null;
     }
-
+    /*final Creation creation = Creation.fromMap(recordSnapshots.value);
+    creation.id = recordSnapshots.key;*/
     return Creation.fromMap(recordSnapshots.value);
   }
 }

@@ -3,17 +3,17 @@ import 'package:meta/meta.dart';
 class QrCode {
 
   int id;
-  int qrCode;
+  int serial;
   String label;
 
   QrCode({
-   @required this.qrCode,
+   @required this.serial,
    @required this.label
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'qrCode' : qrCode,
+      'serial' : serial,
       'label': label
     };
   }
@@ -21,13 +21,13 @@ class QrCode {
   static QrCode fromMap(Map<String, dynamic> map) {
 
     return QrCode(
-      qrCode : map['qrCode'],
+      serial : map['serial'],
       label: map['label']
     );
   }
 
   @override
   String toString() {
-    return 'QrCode{ qrCode : $qrCode, label: $label}';
+    return 'QrCode{ serial : $serial, label: $label}';
   }
 }

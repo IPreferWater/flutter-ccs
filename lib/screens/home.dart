@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
              );
            }
 
-           if(state is ScanFinishError){
+           if(state is ScanFinishNotFound){
              return Text("can't find this code");
            }
            return Text("error");

@@ -16,7 +16,7 @@ class ScanFinishSuccess extends ScanState {
 
   ScanFinishSuccess(this.creation) : super([creation]);
 }
-class ScanFinishError extends ScanState {}
+class ScanFinishNotFound extends ScanState {}
 
 class ScanLoaded extends ScanState {
   final Creation creation;

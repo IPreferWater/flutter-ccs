@@ -7,7 +7,7 @@ abstract class ScanEvent extends Equatable {
 }
 
 class ScannedCode extends ScanEvent {
-  final String qrCode;
+  final String serial;
 
-  ScannedCode(this.qrCode) : super([qrCode]);
+  ScannedCode(this.serial) : super([serial]);
 }

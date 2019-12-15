@@ -89,7 +89,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 final displayedQrCode = state.qrCode[index];
                 return ListTile(
                   title: Text(displayedQrCode.id.toString()),
-                  subtitle: Text('${displayedQrCode.label} (${displayedQrCode.qrCode})'),
+                  subtitle: Text('${displayedQrCode.label} (${displayedQrCode.serial})'),
                   trailing: _buildUpdateDeleteQrCode(displayedQrCode),
                 );
               },
@@ -137,7 +137,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 return ListTile(
                   title: Text(displayedCreation.id.toString()),
                   subtitle: Text(
-                      'qr code : ${displayedCreation.qrCode} before : ${displayedCreation.before.title} after : ${displayedCreation.after.title}'),
+                      'qr code : ${displayedCreation.qrCodeId} before : ${displayedCreation.before.title} after : ${displayedCreation.after.title}'),
                   trailing: _buildUpdateDeleteCreations(displayedCreation),
                 );
               },

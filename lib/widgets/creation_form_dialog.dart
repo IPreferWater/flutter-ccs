@@ -38,7 +38,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
   final afterDescription = TextEditingController();
   final afterImageUrl = TextEditingController();
 
-  int qrCode;
+  int qrCodeId;
 
   @override
   void initState(){
@@ -52,7 +52,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
 
     if(this.widget.creationToUpdate!=null){
       final Creation creationToUpdate = widget.creationToUpdate;
-      qrCode = creationToUpdate.qrCode;
+      qrCodeId = creationToUpdate.qrCodeId;
 
       beforeTitle.text = creationToUpdate.before.title;
       beforeDescription.text = creationToUpdate.before.description;
@@ -202,7 +202,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
                             imgPath: afterImageUrl.text
                         );
                         final creationToCreate = Creation(
-                          qrCode: qrCode,
+                          qrCodeId: qrCodeId,
                             before: before,
                             after: after,
                             ingredients: <Item>[]
@@ -231,7 +231,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
       var qrCodeMapped = List<Map<String, Object>>();
 
       qrCodes.forEach((qrCode) =>
-          qrCodeMapped.add({"display": qrCode.label ,"value": qrCode.qrCode})
+          qrCodeMapped.add({"display": qrCode.label ,"value": qrCode.id})
       );
 
       return qrCodeMapped;
@@ -250,15 +250,15 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
            return DropDownFormField(
              titleText: 'qr code',
              hintText: 'Please choose one',
-             value: qrCode,
+             value: qrCodeId,
              onSaved: (value) {
                setState(() {
-                 qrCode = value;
+                 qrCodeId = value;
                });
              },
              onChanged: (value) {
                setState(() {
-                 qrCode = value;
+                 qrCodeId = value;
                });
              },
            dataSource: ok(state.qrCode),

@@ -48,4 +48,23 @@ class QrCodeDao {
       return qrCode;
     }).toList();
   }
+
+  Future<QrCode> getQrCodeBySerial(int serial) async{
+
+    final finder = Finder(filter: Filter.equals('serial', serial));
+
+    final recordSnapshots = await _qrCodeStore.findFirst(
+      await _db,
+      finder:finder
+    );
+
+    if(recordSnapshots==null){
+      return null;
+    }
+
+    final qrCode = QrCode.fromMap(recordSnapshots.value);
+    qrCode.id= recordSnapshots.key;
+    //return QrCode.fromMap(recordSnapshots.value);
+    return qrCode;
+  }
 }

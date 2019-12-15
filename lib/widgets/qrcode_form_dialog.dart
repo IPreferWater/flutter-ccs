@@ -36,16 +36,10 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
     _qrCodeBloc = BlocProvider.of<QrCodeBloc>(context);
 
     if(this.widget.qrCodeToUpdate!=null){
-     /* final Creation creationToUpdate = widget.qrCodeToUpdate;
-      qrCode = creationToUpdate.qrCode;
+      final QrCode qrCode = widget.qrCodeToUpdate;
 
-      beforeTitle.text = creationToUpdate.before.title;
-      beforeDescription.text = creationToUpdate.before.description;
-      beforeImageUrl.text = creationToUpdate.before.imgPath;
-
-      afterTitle.text = creationToUpdate.after.title;
-      afterDescription.text = creationToUpdate.after.description;
-      afterImageUrl.text = creationToUpdate.after.imgPath;*/
+      qrCodeInput.text = qrCode.serial.toString();
+      label.text = qrCode.label;
     }
   }
 
@@ -94,7 +88,7 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
             );
         }
 
-        if(state is ScanFinishError){
+        if(state is ScanFinishNotFound){
           return             Row(
             children: <Widget>[
               Expanded(
@@ -182,17 +176,17 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
 
                         final qrCodeInt = int.parse(qrCodeInput.text);
 
-                       final qrCodeToCreate = QrCode(qrCode: qrCodeInt, label: label.text);
+                       final qrCodeToCreate = QrCode(serial: qrCodeInt, label: label.text);
 
-                        _qrCodeBloc.dispatch(CreateQrCode(qrCodeToCreate));
+                        //_qrCodeBloc.dispatch(CreateQrCode(qrCodeToCreate));
 
                         //TODO: make this code correct
-                        /*if(widget.qrCodeToUpdate!=null){
-                          creationToCreate.id = widget.qrCodeToUpdate.id;
-                          widget.qrCodeBloc.dispatch(UpdateCreation(creationToCreate));
+                        if(widget.qrCodeToUpdate!=null){
+                          qrCodeToCreate.id = widget.qrCodeToUpdate.id;
+                          _qrCodeBloc.dispatch(UpdateQrCode(qrCodeToCreate));
                         }else{
-                          widget.qrCodeBloc.dispatch(CreateCreation(creationToCreate));
-                        }*/
+                          _qrCodeBloc.dispatch(CreateQrCode(qrCodeToCreate));
+                        }
 
 
 

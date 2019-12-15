@@ -28,7 +28,8 @@ class QrCodeBloc extends Bloc<QrCodeEvent, QrCodeState> {
     }
 
     else if (event is UpdateQrCode){
-      //todo
+      await _qrCodeDao.update(event.updatedQrCode);
+      yield* _reloadQrCode();
     }
 
     else if (event is DeleteQrCode){
@@ -39,6 +40,7 @@ class QrCodeBloc extends Bloc<QrCodeEvent, QrCodeState> {
 
   Stream<QrCodeState> _reloadQrCode() async* {
     final qrCodes = await _qrCodeDao.getAllSortedById();
+    print(qrCodes);
     yield QrCodeLoaded(qrCodes);
   }
 }
