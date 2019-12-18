@@ -9,6 +9,8 @@ abstract class QrCodeEvent extends Equatable {
 
 class LoadQrCodes extends QrCodeEvent {}
 
+class LoadFreeQrCodes extends QrCodeEvent {}
+
 class CreateQrCode extends QrCodeEvent{
   final QrCode qrCode;
 

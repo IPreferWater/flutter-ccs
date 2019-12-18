@@ -5,9 +5,8 @@ import 'package:ccs/scan_bloc/bloc.dart';
 import 'package:ccs/screens/admin.dart';
 import 'package:ccs/widgets/scan_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
@@ -75,6 +74,7 @@ class _HomePageState extends State<HomePage> {
              return BeforeAfter(
                beforeImage: Image.file( beforeImage),
                afterImage: Image.file( afterImage),
+                 imageCornerRadius: 10,
              );
            }
 

@@ -20,7 +20,6 @@ class CreationFormDialog extends StatefulWidget{
 
   _CreationFormDialogState createState() => _CreationFormDialogState();
 
-
 }
 class _CreationFormDialogState extends State<CreationFormDialog> {
 
@@ -47,8 +46,10 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
     _creationBloc = BlocProvider.of<CreationBloc>(context);
     _creationBloc.dispatch(LoadCreations());
 
+
     _qrCodeBloc = BlocProvider.of<QrCodeBloc>(context);
-    _qrCodeBloc.dispatch(LoadQrCodes());
+    //we load only the free qrCode
+    _qrCodeBloc.dispatch(LoadFreeQrCodes());
 
     if(this.widget.creationToUpdate!=null){
       final Creation creationToUpdate = widget.creationToUpdate;
@@ -215,6 +216,9 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
                         }else{
                           _creationBloc.dispatch(CreateCreation(creationToCreate));
                         }
+
+                        //in this form we put the state to load only free qrCode, we want to retrieve the other
+                        _qrCodeBloc.dispatch(LoadQrCodes());
                         Navigator.of(context).pop();
                       }
                     },
@@ -227,7 +231,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
 
   Widget _buildQrCodeDropDown(){
     
-    List<Map<String, Object>> ok(List<QrCode> qrCodes){
+    List<Map<String, Object>> getQrCode(List<QrCode> qrCodes){
       var qrCodeMapped = List<Map<String, Object>>();
 
       qrCodes.forEach((qrCode) =>
@@ -261,7 +265,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
                  qrCodeId = value;
                });
              },
-           dataSource: ok(state.qrCode),
+           dataSource: getQrCode(state.qrCode),
              textField: 'display',
              valueField: 'value',
            );

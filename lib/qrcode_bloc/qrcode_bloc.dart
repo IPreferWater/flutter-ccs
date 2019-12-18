@@ -3,10 +3,12 @@ import 'package:bloc/bloc.dart';
 import 'package:ccs/models/qrcode.dart';
 import 'package:ccs/qrcode_bloc/qrcode_event.dart';
 import 'package:ccs/qrcode_bloc/qrcode_state.dart';
+import 'package:ccs/services/creation_dao.dart';
 import 'package:ccs/services/qrcode_dao.dart';
 
 class QrCodeBloc extends Bloc<QrCodeEvent, QrCodeState> {
   QrCodeDao _qrCodeDao = QrCodeDao();
+  CreationDao _creationDao = CreationDao();
 
   // Display a loading indicator right from the start of the app
   @override
@@ -20,6 +22,11 @@ class QrCodeBloc extends Bloc<QrCodeEvent, QrCodeState> {
     if (event is LoadQrCodes) {
       yield QrCodeLoading();
       yield* _reloadQrCode();
+    }
+
+    else if (event is LoadFreeQrCodes){
+      yield QrCodeLoading();
+      yield* _reloadFreeQrCode();
     }
 
     else if (event is CreateQrCode){
@@ -41,6 +48,20 @@ class QrCodeBloc extends Bloc<QrCodeEvent, QrCodeState> {
   Stream<QrCodeState> _reloadQrCode() async* {
     final qrCodes = await _qrCodeDao.getAllSortedById();
     print(qrCodes);
+    yield QrCodeLoaded(qrCodes);
+  }
+
+  Stream<QrCodeState> _reloadFreeQrCode() async* {
+    var qrCodes = await _qrCodeDao.getAllSortedById();
+    final creations = await _creationDao.getAll();
+
+    final alreadyUsedQrCode = creations.map((creation) => creation.qrCodeId).toList();
+
+    qrCodes.removeWhere((qrCode) =>
+      alreadyUsedQrCode.contains(qrCode.id)
+    );
+
+
     yield QrCodeLoaded(qrCodes);
   }
 }
