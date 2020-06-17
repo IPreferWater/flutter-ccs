@@ -1,5 +1,6 @@
 
 import 'package:ccs/assets/ccs_icon.dart';
+import 'package:ccs/widgets/admin_user.dart';
 import 'package:ccs/widgets/creation_form_dialog.dart';
 import 'package:ccs/models/user.dart';
 import 'package:ccs/qrcode_bloc/bloc.dart';
@@ -64,56 +65,9 @@ class _AdminScreenState extends State<AdminScreen> {
     }
 
     if (_selectedMenu == 1){
-      return _qrMenu();
+      return AdminUser();
     }
     return Text("please select menu");
-  }
-
-  Widget _qrMenu() {
-    return BlocBuilder(
-      bloc: _qrCodeBloc,
-      builder: (BuildContext context, QrCodeState state) {
-      if (state is QrCodeLoading) {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      }
-
-      if (state is QrCodeLoaded) {
-        return Column(
-          children: <Widget>[
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: state.qrCode.length,
-              itemBuilder: (context, index){
-                final displayedQrCode = state.qrCode[index];
-                return ListTile(
-                  title: Text(displayedQrCode.id.toString()),
-                  subtitle: Text('${displayedQrCode.label} (${displayedQrCode.code})'),
-                  trailing: _buildUpdateDeleteQrCode(displayedQrCode),
-                );
-              },
-            ),
-            FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => QrCodeFormDialog(),
-                );
-              },
-            )
-          ],
-        );
-      }
-
-        return Center(
-            child: Text(
-              "error ?",
-              textAlign: TextAlign.center,
-            ));
-      },
-    );
   }
 
   Widget _creationMenu() {
@@ -160,31 +114,6 @@ class _AdminScreenState extends State<AdminScreen> {
           textAlign: TextAlign.center,
         ));
       },
-    );
-  }
-
-  Row _buildUpdateDeleteQrCode(User qrCodeDisplayed){
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => QrCodeFormDialog(
-               qrCodeToUpdate: qrCodeDisplayed,
-              ),
-            );
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.delete_outline),
-          onPressed: () {
-            _qrCodeBloc.dispatch(DeleteQrCode(qrCodeDisplayed));
-          },
-        ),
-      ],
     );
   }
 
