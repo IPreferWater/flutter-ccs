@@ -11,14 +11,14 @@ abstract class QrCodeState extends Equatable {
 class QrCodeLoading extends QrCodeState {}
 
 class QrCodeFinishSuccess extends QrCodeState {
-  final QrCode qrCode;
+  final User qrCode;
 
   QrCodeFinishSuccess(this.qrCode) : super([qrCode]);
 }
 class QrCodeFinishError extends QrCodeState {}
 
 class QrCodeLoaded extends QrCodeState {
-  final List<QrCode> qrCode;
+  final List<User> qrCode;
 
   QrCodeLoaded(this.qrCode) : super([qrCode]);
 }

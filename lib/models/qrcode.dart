@@ -1,12 +1,12 @@
 import 'package:meta/meta.dart';
 
-class QrCode {
+class User {
 
   int id;
   int serial;
   String label;
 
-  QrCode({
+  User({
    @required this.serial,
    @required this.label
   });
@@ -18,8 +18,8 @@ class QrCode {
     };
   }
 
-  static QrCode fromMap(Map<String, dynamic> map) {
-    return QrCode(
+  static User fromMap(Map<String, dynamic> map) {
+    return User(
       serial : map['serial'],
       label: map['label']
     );

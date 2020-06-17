@@ -163,7 +163,7 @@ class _AdminScreenState extends State<AdminScreen> {
     );
   }
 
-  Row _buildUpdateDeleteQrCode(QrCode qrCodeDisplayed){
+  Row _buildUpdateDeleteQrCode(User qrCodeDisplayed){
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

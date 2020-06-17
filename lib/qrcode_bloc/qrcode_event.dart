@@ -12,19 +12,19 @@ class LoadQrCodes extends QrCodeEvent {}
 class LoadFreeQrCodes extends QrCodeEvent {}
 
 class CreateQrCode extends QrCodeEvent{
-  final QrCode qrCode;
+  final User qrCode;
 
   CreateQrCode(this.qrCode) : super ([qrCode]);
 }
 
 class UpdateQrCode extends QrCodeEvent{
-  final QrCode updatedQrCode;
+  final User updatedQrCode;
 
   UpdateQrCode(this.updatedQrCode) : super([updatedQrCode]);
 }
 
 class DeleteQrCode extends QrCodeEvent{
-  final QrCode qrCode;
+  final User qrCode;
 
   DeleteQrCode(this.qrCode) : super([qrCode]);
 }

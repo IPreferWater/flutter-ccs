@@ -10,11 +10,11 @@ class QrCodeDao {
 
   Future<Database> get _db async => await AppDatabase.instance.database;
 
-  Future insert(QrCode qrCode) async {
+  Future insert(User qrCode) async {
     await _qrCodeStore.add(await _db, qrCode.toMap());
   }
 
-  Future update(QrCode qrCode) async {
+  Future update(User qrCode) async {
     final finder = Finder(filter: Filter.byKey(qrCode.id));
     await _qrCodeStore.update(
       await _db,
@@ -23,7 +23,7 @@ class QrCodeDao {
     );
   }
 
-  Future delete(QrCode qrCode) async {
+  Future delete(User qrCode) async {
     final finder = Finder(filter: Filter.byKey(qrCode.id));
     await _qrCodeStore.delete(
       await _db,
@@ -31,7 +31,7 @@ class QrCodeDao {
     );
   }
 
-  Future<List<QrCode>> getAllSortedById() async {
+  Future<List<User>> getAllSortedById() async {
 
     final finder = Finder(sortOrders: [
       SortOrder('id'),
@@ -43,13 +43,13 @@ class QrCodeDao {
     );
 
     return recordSnapshots.map((snapshot) {
-      final qrCode = QrCode.fromMap(snapshot.value);
+      final qrCode = User.fromMap(snapshot.value);
       qrCode.id = snapshot.key;
       return qrCode;
     }).toList();
   }
 
-  Future<QrCode> getQrCodeBySerial(int serial) async{
+  Future<User> getQrCodeBySerial(int serial) async{
 
     final finder = Finder(filter: Filter.equals('serial', serial));
 
@@ -62,7 +62,7 @@ class QrCodeDao {
       return null;
     }
 
-    final qrCode = QrCode.fromMap(recordSnapshots.value);
+    final qrCode = User.fromMap(recordSnapshots.value);
     qrCode.id= recordSnapshots.key;
     //return QrCode.fromMap(recordSnapshots.value);
     return qrCode;

@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 
 class QrCodeFormDialog extends StatefulWidget{
 
-  final QrCode qrCodeToUpdate;
+  final User qrCodeToUpdate;
 
   QrCodeFormDialog({
     this.qrCodeToUpdate
@@ -36,7 +36,7 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
     _qrCodeBloc = BlocProvider.of<QrCodeBloc>(context);
 
     if(this.widget.qrCodeToUpdate!=null){
-      final QrCode qrCode = widget.qrCodeToUpdate;
+      final User qrCode = widget.qrCodeToUpdate;
 
       qrCodeInput.text = qrCode.serial.toString();
       label.text = qrCode.label;
@@ -176,7 +176,7 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
 
                         final qrCodeInt = int.parse(qrCodeInput.text);
 
-                       final qrCodeToCreate = QrCode(serial: qrCodeInt, label: label.text);
+                       final qrCodeToCreate = User(serial: qrCodeInt, label: label.text);
 
                         //_qrCodeBloc.dispatch(CreateQrCode(qrCodeToCreate));
 

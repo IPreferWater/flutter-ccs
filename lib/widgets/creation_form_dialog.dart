@@ -231,7 +231,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
 
   Widget _buildQrCodeDropDown(){
     
-    List<Map<String, Object>> getQrCode(List<QrCode> qrCodes){
+    List<Map<String, Object>> getQrCode(List<User> qrCodes){
       var qrCodeMapped = List<Map<String, Object>>();
 
       qrCodes.forEach((qrCode) =>
