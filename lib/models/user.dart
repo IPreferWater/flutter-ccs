@@ -3,30 +3,42 @@ import 'package:meta/meta.dart';
 class User {
 
   int id;
+  String name;
+  String surname;
+  bool valid;
   String code;
   String label;
 
   User({
-   @required this.code,
-   @required this.label
+   @required this.name,
+   @required this.surname,
+    @required this.valid,
+    this.code,
+    this.label
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'serial' : code,
-      'label': label
+      'name' : name,
+      'surname': surname,
+      'valid': valid,
+      'code': code,
+      'label': label,
     };
   }
 
   static User fromMap(Map<String, dynamic> map) {
     return User(
-      code : map['serial'],
-      label: map['label']
+        name : map['name'],
+      surname : map['surname'],
+      valid : map['valid'],
+      code : map['code'],
+      label : map['label'],
     );
   }
 
   @override
   String toString() {
-    return 'QrCode{ serial : $code, label: $label}';
+    return 'User{ name : $name, surname: $surname, valid : $valid, code : $code, label : $label}';
   }
 }
