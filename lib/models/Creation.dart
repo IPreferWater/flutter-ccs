@@ -1,42 +1,47 @@
 import 'package:ccs/models/Item.dart' as custom;
+import 'package:ccs/models/user.dart';
 import 'package:meta/meta.dart';
 
 class Creation {
 
   int id;
-  int qrCodeId;
-  custom.Item before;
-  custom.Item after;
-  List <custom.Item> ingredients;
+  String label;
+  DateTime date;
+  List <User> users;
 
   Creation({
-    this.qrCodeId,
-   @required this.before,
-   @required this.after,
-    this.ingredients});
+    @required this.label,
+   @required this.date,
+   @required this.users});
 
-  // columns in the database.
   Map<String, dynamic> toMap() {
     return {
-      'qrCodeId' : qrCodeId,
-      'before': before.toMap(),
-      'after': after.toMap(),
-      'ingredients': ingredients.map((ingredient) => ingredient.toMap()).toList(growable: false)
+      'label': label,
+      'date' : date,
+      'users': users.map((user) => user.toMap()).toList(growable: false)
     };
   }
 
   static Creation fromMap(Map<String, dynamic> map) {
-
+    var usersJson = map['users'];
+    List<User> users;
+    if (usersJson != null) {
+      users = usersJson
+          .map((user) => User.fromMap(user))
+          .toList()
+          .cast<User>();
+    } else {
+      users = [];
+    }
     return Creation(
-      qrCodeId : map['qrCodeId'],
-      before: custom.Item.fromMap(map['before']),
-      after: custom.Item.fromMap(map['after']),
-      ingredients: null
+      label : map['label'],
+      date : map['date'],
+        users :users
     );
   }
 
   @override
   String toString() {
-    return 'Creation{ qrCodeId : $qrCodeId, before: $before, after: $after, imgPath: $ingredients}';
+    return 'Session{ label : $label, date : $date}';
   }
 }

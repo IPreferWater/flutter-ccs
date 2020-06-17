@@ -26,18 +26,9 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
   CreationBloc _creationBloc;
   QrCodeBloc _qrCodeBloc;
 
-  final String BEFORE = "before";
-  final String AFTER = "after";
   final _formKey = GlobalKey<FormState>();
-  final beforeTitle = TextEditingController();
-  final beforeDescription = TextEditingController();
-  final beforeImageUrl = TextEditingController();
-
-  final afterTitle = TextEditingController();
-  final afterDescription = TextEditingController();
-  final afterImageUrl = TextEditingController();
-
-  int qrCodeId;
+  final label = TextEditingController();
+  DateTime date = DateTime.now();
 
   @override
   void initState(){
@@ -49,11 +40,11 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
 
     _qrCodeBloc = BlocProvider.of<QrCodeBloc>(context);
     //we load only the free qrCode
-    _qrCodeBloc.dispatch(LoadFreeQrCodes());
+    //_qrCodeBloc.dispatch(LoadFreeQrCodes());
 
     if(this.widget.creationToUpdate!=null){
       final Creation creationToUpdate = widget.creationToUpdate;
-      qrCodeId = creationToUpdate.qrCodeId;
+     /* qrCodeId = creationToUpdate.qrCodeId;
 
       beforeTitle.text = creationToUpdate.before.title;
       beforeDescription.text = creationToUpdate.before.description;
@@ -61,15 +52,10 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
 
       afterTitle.text = creationToUpdate.after.title;
       afterDescription.text = creationToUpdate.after.description;
-      afterImageUrl.text = creationToUpdate.after.imgPath;
+      afterImageUrl.text = creationToUpdate.after.imgPath;*/
     }
   }
 
-
-  Future getImageFromCamera() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
-    print("image selected $image");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,19 +66,6 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
     );
   }
 
-  Future getImageFromGallery(String creation) async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    if(creation==BEFORE){
-      beforeImageUrl.text = image.absolute.path;
-      return;
-    }
-
-    if(creation==AFTER){
-      afterImageUrl.text = image.absolute.path;
-    }
-
-  }
 
   dialogContent(BuildContext context) {
     return Form(
@@ -101,124 +74,41 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
             padding: const EdgeInsets.all(8),
             children: <Widget>[
               _buildQrCodeDropDown(),
-              //before item
               TextFormField(
-                controller: beforeTitle,
+                controller: label,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.person),
-                  hintText: 'Title of the before item',
-                  labelText: 'Title',
+                  hintText: 'label of session',
+                  labelText: 'label',
                 ),
                 validator: (String value) {
                   return value.isEmpty ? 'must not be empty' : null;
                 },
               ),
-              TextFormField(
-                controller: beforeDescription,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.person),
-                  hintText: 'Description of the before item',
-                  labelText: 'Description',
-                ),
-                validator: (String value) {
-                  return value.isEmpty ? 'must not be empty' : null;
-                },
+              Text(date.toString()),
+              RaisedButton(
+                onPressed: () => _selectDate(context),
+                child: Text('Select date'),
               ),
-              Column(
-                children: <Widget>[
-                  RaisedButton(
-                    onPressed: (){
-                      getImageFromCamera();
-                    },
-                    child: Text('camera'),
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      getImageFromGallery(BEFORE);
-                    },
-                    child: Text('gallery'),
-                  ),
-                  TextField(
-                    controller: beforeImageUrl,
-                  )
-                ],
-              ),
-
-              //after item
-              TextFormField(
-                controller: afterTitle,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.person),
-                  hintText: 'Title of the after item',
-                  labelText: 'Title',
-                ),
-                validator: (String value) {
-                  return value.isEmpty ? 'must not be empty' : null;
-                },
-              ),
-              TextFormField(
-                controller: afterDescription,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.person),
-                  hintText: 'Description of the after item',
-                  labelText: 'Description',
-                ),
-                validator: (String value) {
-                  return value.isEmpty ? 'must not be empty' : null;
-                },
-              ),
-              Column(
-                children: <Widget>[
-                  RaisedButton(
-                    onPressed: getImageFromCamera,
-                    child: Text('camera'),
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      getImageFromGallery(AFTER);
-                    },
-                    child: Text('gallery'),
-                  ),
-                  TextField(
-                    controller: afterImageUrl,
-                  )
-                ],
-              ),
-
-
               Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: RaisedButton(
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        final before = Item(
-                            title: beforeTitle.text,
-                            description: beforeDescription.text,
-                            imgPath: beforeImageUrl.text
-                        );
 
-                        final after = Item(
-                            title: afterTitle.text,
-                            description: afterDescription.text,
-                            imgPath: afterImageUrl.text
-                        );
-                        final creationToCreate = Creation(
-                          qrCodeId: qrCodeId,
-                            before: before,
-                            after: after,
-                            ingredients: <Item>[]
+                        final sessionToCreate = Creation(
+                         label: label.text,
+                          date: date,
+                          users: <User>[]
                         );
 
                         //TODO: make this code correct
                         if(widget.creationToUpdate!=null){
-                          creationToCreate.id = widget.creationToUpdate.id;
-                          _creationBloc.dispatch(UpdateCreation(creationToCreate));
+                          sessionToCreate.id = widget.creationToUpdate.id;
+                          _creationBloc.dispatch(UpdateCreation(sessionToCreate));
                         }else{
-                          _creationBloc.dispatch(CreateCreation(creationToCreate));
+                          _creationBloc.dispatch(CreateCreation(sessionToCreate));
                         }
-
-                        //in this form we put the state to load only free qrCode, we want to retrieve the other
-                        _qrCodeBloc.dispatch(LoadQrCodes());
                         Navigator.of(context).pop();
                       }
                     },
@@ -227,6 +117,18 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
             ]
         )
     );
+  }
+
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: date,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != date)
+      setState(() {
+        date = picked;
+      });
   }
 
   Widget _buildQrCodeDropDown(){
@@ -250,7 +152,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
            );
          }
 
-         if (state is QrCodeLoaded) {
+        /* if (state is QrCodeLoaded) {
            return DropDownFormField(
              titleText: 'qr code',
              hintText: 'Please choose one',
@@ -270,7 +172,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
              valueField: 'value',
            );
 
-         }
+         }*/
 
          return Center(
              child: Text(

@@ -68,14 +68,14 @@ class _HomePageState extends State<HomePage> {
            }
 
            if(state is ScanFinishSuccess){
-             final beforeImage = new File(state.creation.before.imgPath);
-             final afterImage = new File(state.creation.after.imgPath);
+             //final beforeImage = new File(state.creation.before.imgPath);
+             //final afterImage = new File(state.creation.after.imgPath);
 
-             return BeforeAfter(
+             /*return BeforeAfter(
                beforeImage: Image.file( beforeImage),
                afterImage: Image.file( afterImage),
                  imageCornerRadius: 10,
-             );
+             );*/
            }
 
            if(state is ScanFinishNotFound){

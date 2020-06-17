@@ -52,16 +52,16 @@ class QrCodeBloc extends Bloc<QrCodeEvent, QrCodeState> {
   }
 
   Stream<QrCodeState> _reloadFreeQrCode() async* {
-    var qrCodes = await _qrCodeDao.getAllSortedById();
+   /* var qrCodes = await _qrCodeDao.getAllSortedById();
     final creations = await _creationDao.getAll();
 
-    final alreadyUsedQrCode = creations.map((creation) => creation.qrCodeId).toList();
+   // final alreadyUsedQrCode = creations.map((creation) => creation.qrCodeId).toList();
 
     qrCodes.removeWhere((qrCode) =>
       alreadyUsedQrCode.contains(qrCode.id)
     );
 
 
-    yield QrCodeLoaded(qrCodes);
+    yield QrCodeLoaded(qrCodes);*/
   }
 }
