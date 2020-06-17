@@ -7,19 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
 
-class QrCodeFormDialog extends StatefulWidget{
+class UserFormDialog extends StatefulWidget{
 
-  final User qrCodeToUpdate;
+  final User userToUpdate;
 
-  QrCodeFormDialog({
-    this.qrCodeToUpdate
+  UserFormDialog({
+    this.userToUpdate
   });
 
-  _QrCodeFormDialogState createState() => _QrCodeFormDialogState();
+  _UserFormDialogState createState() => _UserFormDialogState();
 
 
 }
-class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
+class _UserFormDialogState extends State<UserFormDialog> {
 
   ScanBloc _scanBloc;
   QrCodeBloc _qrCodeBloc;
@@ -35,8 +35,8 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
     _scanBloc = BlocProvider.of<ScanBloc>(context);
     _qrCodeBloc = BlocProvider.of<QrCodeBloc>(context);
 
-    if(this.widget.qrCodeToUpdate!=null){
-      final User qrCode = widget.qrCodeToUpdate;
+    if(this.widget.userToUpdate!=null){
+      final User qrCode = widget.userToUpdate;
 
       qrCodeInput.text = qrCode.code.toString();
       label.text = qrCode.label;
@@ -181,8 +181,8 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
                         //_qrCodeBloc.dispatch(CreateQrCode(qrCodeToCreate));
 
                         //TODO: make this code correct
-                        if(widget.qrCodeToUpdate!=null){
-                          qrCodeToCreate.id = widget.qrCodeToUpdate.id;
+                        if(widget.userToUpdate!=null){
+                          qrCodeToCreate.id = widget.userToUpdate.id;
                           _qrCodeBloc.dispatch(UpdateQrCode(qrCodeToCreate));
                         }else{
                           _qrCodeBloc.dispatch(CreateQrCode(qrCodeToCreate));

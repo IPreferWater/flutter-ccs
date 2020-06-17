@@ -4,7 +4,7 @@ import 'package:ccs/widgets/admin_user.dart';
 import 'package:ccs/widgets/creation_form_dialog.dart';
 import 'package:ccs/models/user.dart';
 import 'package:ccs/qrcode_bloc/bloc.dart';
-import 'package:ccs/widgets/qrcode_form_dialog.dart';
+import 'package:ccs/widgets/user_form_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ccs/models/Creation.dart';

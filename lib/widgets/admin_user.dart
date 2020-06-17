@@ -5,7 +5,7 @@ import 'package:ccs/qrcode_bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'qrcode_form_dialog.dart';
+import 'user_form_dialog.dart';
 
 class AdminUser extends StatefulWidget {
  // final VideoPlayerController videoController;
@@ -57,7 +57,7 @@ class _AdminUserState extends State<AdminUser> {
                 onPressed: () {
                   showDialog(
                     context: context,
-                    builder: (BuildContext context) => QrCodeFormDialog(),
+                    builder: (BuildContext context) => UserFormDialog(),
                   );
                 },
               )
@@ -82,8 +82,8 @@ class _AdminUserState extends State<AdminUser> {
           onPressed: () {
             showDialog(
               context: context,
-              builder: (BuildContext context) => QrCodeFormDialog(
-                qrCodeToUpdate: qrCodeDisplayed,
+              builder: (BuildContext context) => UserFormDialog(
+                userToUpdate: qrCodeDisplayed,
               ),
             );
           },
