@@ -10,18 +10,18 @@ import '../models/session.dart';
 import '../models/Item.dart';
 import 'dropdown_formfield.dart';
 
-class CreationFormDialog extends StatefulWidget{
+class SessionFormDialog extends StatefulWidget{
 
-  final Session creationToUpdate;
+  final Session sessionToUpdate;
 
-  CreationFormDialog({
-    this.creationToUpdate
+  SessionFormDialog({
+    this.sessionToUpdate
   });
 
-  _CreationFormDialogState createState() => _CreationFormDialogState();
+  _SessionFormDialogState createState() => _SessionFormDialogState();
 
 }
-class _CreationFormDialogState extends State<CreationFormDialog> {
+class _SessionFormDialogState extends State<SessionFormDialog> {
 
   CreationBloc _creationBloc;
   QrCodeBloc _qrCodeBloc;
@@ -42,8 +42,8 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
     //we load only the free qrCode
     //_qrCodeBloc.dispatch(LoadFreeQrCodes());
 
-    if(this.widget.creationToUpdate!=null){
-      final Session creationToUpdate = widget.creationToUpdate;
+    if(this.widget.sessionToUpdate!=null){
+      final Session session = widget.sessionToUpdate;
      /* qrCodeId = creationToUpdate.qrCodeId;
 
       beforeTitle.text = creationToUpdate.before.title;
@@ -103,8 +103,8 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
                         );
 
                         //TODO: make this code correct
-                        if(widget.creationToUpdate!=null){
-                          sessionToCreate.id = widget.creationToUpdate.id;
+                        if(widget.sessionToUpdate!=null){
+                          sessionToCreate.id = widget.sessionToUpdate.id;
                           _creationBloc.dispatch(UpdateCreation(sessionToCreate));
                         }else{
                           _creationBloc.dispatch(CreateCreation(sessionToCreate));

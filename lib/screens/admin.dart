@@ -1,7 +1,7 @@
 
 import 'package:ccs/assets/ccs_icon.dart';
 import 'package:ccs/widgets/admin_user.dart';
-import 'package:ccs/widgets/creation_form_dialog.dart';
+import 'package:ccs/widgets/session_form_dialog.dart';
 import 'package:ccs/models/user.dart';
 import 'package:ccs/qrcode_bloc/bloc.dart';
 import 'package:ccs/widgets/user_form_dialog.dart';
@@ -101,7 +101,7 @@ class _AdminScreenState extends State<AdminScreen> {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext context) => CreationFormDialog(),
+                        builder: (BuildContext context) => SessionFormDialog(),
                       );
                     },
                   )
@@ -126,8 +126,8 @@ class _AdminScreenState extends State<AdminScreen> {
           onPressed: () {
             showDialog(
               context: context,
-              builder: (BuildContext context) => CreationFormDialog(
-                creationToUpdate: displayedCreation,
+              builder: (BuildContext context) => SessionFormDialog(
+                sessionToUpdate: displayedCreation,
               ),
             );
           },
