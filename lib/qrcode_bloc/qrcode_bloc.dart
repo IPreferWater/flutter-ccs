@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:ccs/models/qrcode.dart';
+import 'package:ccs/models/user.dart';
 import 'package:ccs/qrcode_bloc/qrcode_event.dart';
 import 'package:ccs/qrcode_bloc/qrcode_state.dart';
 import 'package:ccs/services/creation_dao.dart';

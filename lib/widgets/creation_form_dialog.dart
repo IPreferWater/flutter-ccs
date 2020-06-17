@@ -1,6 +1,6 @@
 import 'package:ccs/creation_bloc/bloc.dart';
 import 'package:ccs/creation_bloc/creation_bloc.dart';
-import 'package:ccs/models/qrcode.dart';
+import 'package:ccs/models/user.dart';
 import 'package:ccs/qrcode_bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

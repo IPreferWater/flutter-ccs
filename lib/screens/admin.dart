@@ -1,7 +1,7 @@
 
 import 'package:ccs/assets/ccs_icon.dart';
 import 'package:ccs/widgets/creation_form_dialog.dart';
-import 'package:ccs/models/qrcode.dart';
+import 'package:ccs/models/user.dart';
 import 'package:ccs/qrcode_bloc/bloc.dart';
 import 'package:ccs/widgets/qrcode_form_dialog.dart';
 import 'package:flutter/material.dart';

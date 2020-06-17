@@ -1,5 +1,5 @@
 import 'package:ccs/models/Creation.dart';
-import 'package:ccs/models/qrcode.dart';
+import 'package:ccs/models/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 

@@ -1,5 +1,5 @@
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:ccs/models/qrcode.dart';
+import 'package:ccs/models/user.dart';
 import 'package:ccs/qrcode_bloc/bloc.dart';
 import 'package:ccs/qrcode_bloc/qrcode_bloc.dart';
 import 'package:ccs/scan_bloc/bloc.dart';
