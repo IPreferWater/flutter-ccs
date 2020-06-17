@@ -269,11 +269,12 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
              textField: 'display',
              valueField: 'value',
            );
+
          }
 
          return Center(
              child: Text(
-               "can't load the qr codes in database ...",
+               "can't load the q r codes in database ...",
                textAlign: TextAlign.center,
              ));
        }
