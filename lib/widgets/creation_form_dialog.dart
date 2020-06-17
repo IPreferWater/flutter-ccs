@@ -12,7 +12,7 @@ import 'dropdown_formfield.dart';
 
 class CreationFormDialog extends StatefulWidget{
 
-  final Creation creationToUpdate;
+  final Session creationToUpdate;
 
   CreationFormDialog({
     this.creationToUpdate
@@ -43,7 +43,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
     //_qrCodeBloc.dispatch(LoadFreeQrCodes());
 
     if(this.widget.creationToUpdate!=null){
-      final Creation creationToUpdate = widget.creationToUpdate;
+      final Session creationToUpdate = widget.creationToUpdate;
      /* qrCodeId = creationToUpdate.qrCodeId;
 
       beforeTitle.text = creationToUpdate.before.title;
@@ -96,7 +96,7 @@ class _CreationFormDialogState extends State<CreationFormDialog> {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
 
-                        final sessionToCreate = Creation(
+                        final sessionToCreate = Session(
                          label: label.text,
                           date: date,
                           users: <User>[]

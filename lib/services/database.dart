@@ -6,7 +6,7 @@ import 'package:ccs/models/Creation.dart';
 //import 'package:sembast/sembast.dart';
 //import 'package:sembast/sembast_io.dart';
 
-Future<void> insertDog(Creation creation) async {
+Future<void> insertDog(Session creation) async {
 
  // Database db = await databaseFactoryIo
   //    .openDatabase(join(".dart_tool", "sembast", "example", "record_demo.db"));

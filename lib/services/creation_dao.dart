@@ -14,14 +14,14 @@ class CreationDao {
   // singleton instance of an opened database.
   Future<Database> get _db async => await AppDatabase.instance.database;
 
-  Future insert(Creation creation) async {
+  Future insert(Session creation) async {
     print("start creationStore.add ? $creation");
     print(_db);
     final t = await _creationStore.add(await _db, creation.toMap());
     print(t);
   }
 
-  Future update(Creation creation) async {
+  Future update(Session creation) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
     final finder = Finder(filter: Filter.byKey(creation.id));
@@ -32,7 +32,7 @@ class CreationDao {
     );
   }
 
-  Future delete(Creation creation) async {
+  Future delete(Session creation) async {
     final finder = Finder(filter: Filter.byKey(creation.id));
     await _creationStore.delete(
       await _db,
@@ -40,7 +40,7 @@ class CreationDao {
     );
   }
 
-  Future<List<Creation>> getAll() async {
+  Future<List<Session>> getAll() async {
 
     print("getAll");
 
@@ -55,14 +55,14 @@ class CreationDao {
 
     // Making a List<Creation> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {
-      final creation = Creation.fromMap(snapshot.value);
+      final creation = Session.fromMap(snapshot.value);
       // An ID is a key of a record from the database.
       creation.id = snapshot.key;
       return creation;
     }).toList();
   }
 
-  Future<Creation> getByQrCodeId(int qrCodeId) async {
+  Future<Session> getByQrCodeId(int qrCodeId) async {
 
     print("getByQrCode");
 
@@ -80,6 +80,6 @@ class CreationDao {
       return null;
     }
 
-    return Creation.fromMap(recordSnapshots.value);
+    return Session.fromMap(recordSnapshots.value);
   }
 }

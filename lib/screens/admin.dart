@@ -117,7 +117,7 @@ class _AdminScreenState extends State<AdminScreen> {
     );
   }
 
-  Row _buildUpdateDeleteCreations(Creation displayedCreation) {
+  Row _buildUpdateDeleteCreations(Session displayedCreation) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

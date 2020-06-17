@@ -11,19 +11,19 @@ abstract class CreationEvent extends Equatable {
 class LoadCreations extends CreationEvent {}
 
 class CreateCreation extends CreationEvent{
-  final Creation creation;
+  final Session creation;
 
   CreateCreation(this.creation) : super ([creation]);
 }
 
 class UpdateCreation extends CreationEvent {
-  final Creation updatedCreation;
+  final Session updatedCreation;
 
   UpdateCreation(this.updatedCreation) : super([updatedCreation]);
 }
 
 class DeleteCreation extends CreationEvent {
-  final Creation creation;
+  final Session creation;
 
   DeleteCreation(this.creation) : super([creation]);
 }

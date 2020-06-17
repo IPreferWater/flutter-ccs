@@ -11,7 +11,7 @@ abstract class CreationState extends Equatable {
 class CreationsLoading extends CreationState {}
 
 class CreationsLoaded extends CreationState {
-  final List<Creation> creations;
+  final List<Session> creations;
 
   CreationsLoaded(this.creations) : super([creations]);
 }

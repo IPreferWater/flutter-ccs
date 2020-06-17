@@ -1,15 +1,14 @@
-import 'package:ccs/models/Item.dart' as custom;
 import 'package:ccs/models/user.dart';
 import 'package:meta/meta.dart';
 
-class Creation {
+class Session {
 
   int id;
   String label;
   DateTime date;
   List <User> users;
 
-  Creation({
+  Session({
     @required this.label,
    @required this.date,
    @required this.users});
@@ -22,7 +21,7 @@ class Creation {
     };
   }
 
-  static Creation fromMap(Map<String, dynamic> map) {
+  static Session fromMap(Map<String, dynamic> map) {
     var usersJson = map['users'];
     List<User> users;
     if (usersJson != null) {
@@ -33,7 +32,7 @@ class Creation {
     } else {
       users = [];
     }
-    return Creation(
+    return Session(
       label : map['label'],
       date : map['date'],
         users :users

@@ -12,14 +12,14 @@ class ScanWaiting extends ScanState {}
 class ScanLoading extends ScanState {}
 
 class ScanFinishSuccess extends ScanState {
-  final Creation creation;
+  final Session creation;
 
   ScanFinishSuccess(this.creation) : super([creation]);
 }
 class ScanFinishNotFound extends ScanState {}
 
 class ScanLoaded extends ScanState {
-  final Creation creation;
+  final Session creation;
 
   ScanLoaded(this.creation) : super([creation]);
 }
