@@ -15,10 +15,8 @@ class CreationDao {
   Future<Database> get _db async => await AppDatabase.instance.database;
 
   Future insert(Session creation) async {
-    print("start creationStore.add ? $creation");
-    print(_db);
-    final t = await _creationStore.add(await _db, creation.toMap());
-    print(t);
+    final creationMapped = creation.toMap();
+    return  await _creationStore.add(await _db, creationMapped);
   }
 
   Future update(Session creation) async {
@@ -42,24 +40,17 @@ class CreationDao {
 
   Future<List<Session>> getAll() async {
 
-    print("getAll");
-
-    /*final finder = Finder(sortOrders: [
-      SortOrder('name'),
-    ]);*/
-
     final recordSnapshots = await _creationStore.find(
-      await _db,
-     // finder: finder,
+      await _db
     );
 
-    // Making a List<Creation> out of List<RecordSnapshot>
-    return recordSnapshots.map((snapshot) {
+    final sessions = recordSnapshots.map((snapshot) {
       final creation = Session.fromMap(snapshot.value);
-      // An ID is a key of a record from the database.
       creation.id = snapshot.key;
       return creation;
     }).toList();
+
+    return sessions;
   }
 
   Future<Session> getByQrCodeId(int qrCodeId) async {

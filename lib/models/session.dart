@@ -16,12 +16,15 @@ class Session {
   Map<String, dynamic> toMap() {
     return {
       'label': label,
-      'date' : date,
+      'date' : date.millisecondsSinceEpoch,
       'users': users.map((user) => user.toMap()).toList(growable: false)
     };
   }
 
   static Session fromMap(Map<String, dynamic> map) {
+
+    final timestamp =  map['date'];
+
     var usersJson = map['users'];
     List<User> users;
     if (usersJson != null) {
@@ -34,7 +37,7 @@ class Session {
     }
     return Session(
       label : map['label'],
-      date : map['date'],
+      date : DateTime.fromMillisecondsSinceEpoch(timestamp),
         users :users
     );
   }
