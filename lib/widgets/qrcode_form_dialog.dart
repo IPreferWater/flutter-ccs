@@ -38,7 +38,7 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
     if(this.widget.qrCodeToUpdate!=null){
       final User qrCode = widget.qrCodeToUpdate;
 
-      qrCodeInput.text = qrCode.serial.toString();
+      qrCodeInput.text = qrCode.code.toString();
       label.text = qrCode.label;
     }
   }
@@ -174,9 +174,9 @@ class _QrCodeFormDialogState extends State<QrCodeFormDialog> {
                             imgPath: beforeImageUrl.text
                         );*/
 
-                        final qrCodeInt = int.parse(qrCodeInput.text);
+                       // final qrCodeInt = int.parse(qrCodeInput.text);
 
-                       final qrCodeToCreate = User(serial: qrCodeInt, label: label.text);
+                       final qrCodeToCreate = User(code: qrCodeInput.text, label: label.text);
 
                         //_qrCodeBloc.dispatch(CreateQrCode(qrCodeToCreate));
 

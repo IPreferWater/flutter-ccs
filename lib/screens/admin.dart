@@ -89,7 +89,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 final displayedQrCode = state.qrCode[index];
                 return ListTile(
                   title: Text(displayedQrCode.id.toString()),
-                  subtitle: Text('${displayedQrCode.label} (${displayedQrCode.serial})'),
+                  subtitle: Text('${displayedQrCode.label} (${displayedQrCode.code})'),
                   trailing: _buildUpdateDeleteQrCode(displayedQrCode),
                 );
               },
