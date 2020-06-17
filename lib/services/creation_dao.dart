@@ -1,4 +1,4 @@
-import 'package:ccs/models/Creation.dart';
+import 'package:ccs/models/session.dart';
 import 'package:ccs/services/app_database.dart';
 import 'package:sembast/sembast.dart';
 

@@ -7,7 +7,7 @@ import 'package:ccs/qrcode_bloc/bloc.dart';
 import 'package:ccs/widgets/user_form_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ccs/models/Creation.dart';
+import 'package:ccs/models/session.dart';
 import 'package:ccs/creation_bloc/bloc.dart';
 
 class AdminScreen extends StatefulWidget {

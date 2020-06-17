@@ -1,4 +1,4 @@
-import 'package:ccs/models/Creation.dart';
+import 'package:ccs/models/session.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
