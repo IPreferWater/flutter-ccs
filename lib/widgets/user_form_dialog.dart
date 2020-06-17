@@ -25,8 +25,11 @@ class _UserFormDialogState extends State<UserFormDialog> {
   QrCodeBloc _qrCodeBloc;
 
   final _formKey = GlobalKey<FormState>();
+  final name = TextEditingController();
+  final surname = TextEditingController();
   final qrCodeInput = TextEditingController();
   final label = TextEditingController();
+  bool valid = false;
 
   @override
   void initState(){
@@ -36,10 +39,12 @@ class _UserFormDialogState extends State<UserFormDialog> {
     _qrCodeBloc = BlocProvider.of<QrCodeBloc>(context);
 
     if(this.widget.userToUpdate!=null){
-      final User qrCode = widget.userToUpdate;
-
-      qrCodeInput.text = qrCode.code.toString();
-      label.text = qrCode.label;
+      final User user = widget.userToUpdate;
+      name.text = user.name.toString();
+      surname.text = user.surname.toString();
+      valid = user.valid;
+      qrCodeInput.text = user.code.toString();
+      label.text = user.label;
     }
   }
 
@@ -130,6 +135,38 @@ class _UserFormDialogState extends State<UserFormDialog> {
             children: <Widget>[
               _buildQrCodeFormField(),
               TextFormField(
+                controller: name,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.pages),
+                  hintText: 'name',
+                  labelText: 'name',
+                ),
+                validator: (String value) {
+                  return value.isEmpty ? 'must not be empty' : null;
+                },
+              ),
+              TextFormField(
+                controller: surname,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.pages),
+                  hintText: 'surname',
+                  labelText: 'surname',
+                ),
+                validator: (String value) {
+                  return value.isEmpty ? 'must not be empty' : null;
+                },
+              ),
+              Switch(
+                value: valid,
+                onChanged: (value) {
+                  setState(() {
+                    valid = value;
+                  });
+                },
+                activeTrackColor: Colors.lightGreenAccent,
+                activeColor: Colors.green,
+              ),
+              TextFormField(
                 controller: qrCodeInput,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
@@ -138,7 +175,7 @@ class _UserFormDialogState extends State<UserFormDialog> {
                   labelText: 'qr code',
                 ),
                 validator: (String value) {
-                  return value.isEmpty ? 'must not be empty' : null;
+                 // return value.isEmpty ? 'must not be empty' : null;
                 },
               ),
               TextFormField(
@@ -149,18 +186,8 @@ class _UserFormDialogState extends State<UserFormDialog> {
                   labelText: 'label',
                 ),
                 validator: (String value) {
-                  return value.isEmpty ? 'must not be empty' : null;
+                //  return value.isEmpty ? 'must not be empty' : null;
                 },
-              ),
-              Column(
-                children: <Widget>[
-                 /* RaisedButton(
-                    onPressed: (){
-                      getImageFromCamera();
-                    },
-                    child: Text('camera'),
-                  ),*/
-                ],
               ),
 
               Padding(
@@ -168,17 +195,15 @@ class _UserFormDialogState extends State<UserFormDialog> {
                   child: RaisedButton(
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                       /* final before = Item(
-                            title: beforeTitle.text,
-                            description: beforeDescription.text,
-                            imgPath: beforeImageUrl.text
-                        );*/
 
-                       // final qrCodeInt = int.parse(qrCodeInput.text);
 
-                       final qrCodeToCreate = User(code: qrCodeInput.text, label: label.text);
+                       final qrCodeToCreate = User(
+                           name: name.text,
+                           surname: surname.text,
+                           valid: valid,
+                           code: qrCodeInput.text,
+                           label: label.text);
 
-                        //_qrCodeBloc.dispatch(CreateQrCode(qrCodeToCreate));
 
                         //TODO: make this code correct
                         if(widget.userToUpdate!=null){

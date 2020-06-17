@@ -44,11 +44,12 @@ class _AdminUserState extends State<AdminUser> {
                 shrinkWrap: true,
                 itemCount: state.qrCode.length,
                 itemBuilder: (context, index){
-                  final displayedQrCode = state.qrCode[index];
+                  final displayedUser = state.qrCode[index];
                   return ListTile(
-                    title: Text(displayedQrCode.id.toString()),
-                    subtitle: Text('${displayedQrCode.label} (${displayedQrCode.code})'),
-                    trailing: _buildUpdateDeleteQrCode(displayedQrCode),
+                    title: Text(displayedUser.id.toString()),
+                    //TODO show label only if not empty
+                    subtitle: Text('${displayedUser.surname} ${displayedUser.name} (${displayedUser.label}))'),
+                    trailing: _buildUpdateDeleteQrCode(displayedUser),
                   );
                 },
               ),
