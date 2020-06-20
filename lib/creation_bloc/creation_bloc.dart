@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:ccs/services/creation_dao.dart';
+import 'package:ccs/services/session_dao.dart';
 import 'package:ccs/creation_bloc/creation_event.dart';
 import 'package:ccs/creation_bloc/creation_state.dart';
 
 class CreationBloc extends Bloc<CreationEvent, CreationState> {
-  CreationDao _creationDao = CreationDao();
+  SessionDao _creationDao = SessionDao();
 
   @override
   CreationState get initialState => CreationsLoading();

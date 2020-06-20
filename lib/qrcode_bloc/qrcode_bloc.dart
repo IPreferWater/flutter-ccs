@@ -3,12 +3,12 @@ import 'package:bloc/bloc.dart';
 import 'package:ccs/models/user.dart';
 import 'package:ccs/qrcode_bloc/qrcode_event.dart';
 import 'package:ccs/qrcode_bloc/qrcode_state.dart';
-import 'package:ccs/services/creation_dao.dart';
+import 'package:ccs/services/session_dao.dart';
 import 'package:ccs/services/user_dao.dart';
 
 class QrCodeBloc extends Bloc<QrCodeEvent, QrCodeState> {
   UserDao _qrCodeDao = UserDao();
-  CreationDao _creationDao = CreationDao();
+  SessionDao _creationDao = SessionDao();
 
   // Display a loading indicator right from the start of the app
   @override
