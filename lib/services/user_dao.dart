@@ -4,7 +4,7 @@ import 'package:sembast/sembast.dart';
 
 
 
-class QrCodeDao {
+class UserDao {
   static const String USER_STORE_NAME = 'users';
   final _userStore = intMapStoreFactory.store(USER_STORE_NAME);
 
