@@ -2,11 +2,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:ccs/scan_bloc/scan_event.dart';
 import 'package:ccs/scan_bloc/scan_state.dart';
-import 'package:ccs/services/creation_dao.dart';
 import 'package:ccs/services/user_dao.dart';
 
 class ScanBloc extends Bloc<ScanEvent, ScanState> {
-  CreationDao _creationDao = CreationDao();
+
   UserDao _userDao = UserDao();
 
   @override

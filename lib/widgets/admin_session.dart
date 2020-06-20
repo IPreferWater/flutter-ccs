@@ -3,6 +3,7 @@
 import 'package:ccs/creation_bloc/bloc.dart';
 import 'package:ccs/models/session.dart';
 import 'package:ccs/qrcode_bloc/bloc.dart';
+import 'package:ccs/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -74,17 +75,27 @@ class _AdminSessionState extends State<AdminSession> {
     );
   }
 
-  Row _buildUpdateDeleteCreations(Session displayedCreation) {
+  Row _buildUpdateDeleteCreations(Session displayedSession) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        IconButton(
+          icon: Icon(Icons.face),
+          onPressed: () {
+            print("should navigate");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage(session: displayedSession)),
+            );
+          },
+        ),
         IconButton(
           icon: Icon(Icons.edit),
           onPressed: () {
             showDialog(
               context: context,
               builder: (BuildContext context) => SessionFormDialog(
-                sessionToUpdate: displayedCreation,
+                sessionToUpdate: displayedSession,
               ),
             );
           },
@@ -92,7 +103,7 @@ class _AdminSessionState extends State<AdminSession> {
         IconButton(
           icon: Icon(Icons.delete_outline),
           onPressed: () {
-            _creationBloc.dispatch(DeleteCreation(displayedCreation));
+            _creationBloc.dispatch(DeleteCreation(displayedSession));
           },
         ),
       ],
