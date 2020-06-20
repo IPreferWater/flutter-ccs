@@ -7,12 +7,9 @@ import 'package:ccs/creation_bloc/creation_state.dart';
 class CreationBloc extends Bloc<CreationEvent, CreationState> {
   CreationDao _creationDao = CreationDao();
 
-  // Display a loading indicator right from the start of the app
   @override
   CreationState get initialState => CreationsLoading();
 
-
-  // This is where we place the logic.
   @override
   Stream<CreationState> mapEventToState(
       CreationEvent event,
@@ -35,10 +32,7 @@ class CreationBloc extends Bloc<CreationEvent, CreationState> {
   }
 
   Stream<CreationState> _reloadCreations() async* {
-    print("event is _reloadCreations");
-
     final creations = await _creationDao.getAll();
-    print(creations);
     // Yielding a state bundled with the Creations from the database.
     yield CreationsLoaded(creations);
   }

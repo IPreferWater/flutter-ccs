@@ -44,6 +44,9 @@ class _SessionFormDialogState extends State<SessionFormDialog> {
 
     if(this.widget.sessionToUpdate!=null){
       final Session session = widget.sessionToUpdate;
+      label.text = session.label;
+      date = session.date;
+
      /* qrCodeId = creationToUpdate.qrCodeId;
 
       beforeTitle.text = creationToUpdate.before.title;
@@ -73,7 +76,7 @@ class _SessionFormDialogState extends State<SessionFormDialog> {
         child: ListView(
             padding: const EdgeInsets.all(8),
             children: <Widget>[
-              _buildQrCodeDropDown(),
+              //_buildQrCodeDropDown(),
               TextFormField(
                 controller: label,
                 decoration: const InputDecoration(
@@ -86,10 +89,10 @@ class _SessionFormDialogState extends State<SessionFormDialog> {
                 },
               ),
               Text(date.toString()),
-              RaisedButton(
+             /* RaisedButton(
                 onPressed: () => _selectDate(context),
                 child: Text('Select date'),
-              ),
+              ),*/
               Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: RaisedButton(
@@ -105,6 +108,7 @@ class _SessionFormDialogState extends State<SessionFormDialog> {
                         //TODO: make this code correct
                         if(widget.sessionToUpdate!=null){
                           sessionToCreate.id = widget.sessionToUpdate.id;
+                          sessionToCreate.users = widget.sessionToUpdate.users;
                           _creationBloc.dispatch(UpdateCreation(sessionToCreate));
                         }else{
                           _creationBloc.dispatch(CreateCreation(sessionToCreate));
@@ -131,19 +135,19 @@ class _SessionFormDialogState extends State<SessionFormDialog> {
       });
   }
 
-  Widget _buildQrCodeDropDown(){
-    
-    List<Map<String, Object>> getQrCode(List<User> qrCodes){
+  /*Widget _buildQrCodeDropDown() {
+    List<Map<String, Object>> getQrCode(List<User> qrCodes) {
       var qrCodeMapped = List<Map<String, Object>>();
 
       qrCodes.forEach((qrCode) =>
-          qrCodeMapped.add({"display": qrCode.label ,"value": qrCode.id})
+          qrCodeMapped.add({"display": qrCode.label, "value": qrCode.id})
       );
 
       return qrCodeMapped;
     }
+  }*/
 
-   return BlocBuilder(
+   /*return BlocBuilder(
        bloc: _qrCodeBloc,
        builder: (BuildContext context, QrCodeState state) {
          if (state is QrCodeLoading) {
@@ -152,7 +156,7 @@ class _SessionFormDialogState extends State<SessionFormDialog> {
            );
          }
 
-        /* if (state is QrCodeLoaded) {
+         if (state is QrCodeLoaded) {
            return DropDownFormField(
              titleText: 'qr code',
              hintText: 'Please choose one',
@@ -172,7 +176,7 @@ class _SessionFormDialogState extends State<SessionFormDialog> {
              valueField: 'value',
            );
 
-         }*/
+         }
 
          return Center(
              child: Text(
@@ -181,6 +185,6 @@ class _SessionFormDialogState extends State<SessionFormDialog> {
              ));
        }
    );
-  }
+  }*/
 
 }
