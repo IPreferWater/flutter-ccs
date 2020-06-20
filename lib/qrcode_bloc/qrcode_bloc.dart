@@ -4,7 +4,7 @@ import 'package:ccs/models/user.dart';
 import 'package:ccs/qrcode_bloc/qrcode_event.dart';
 import 'package:ccs/qrcode_bloc/qrcode_state.dart';
 import 'package:ccs/services/creation_dao.dart';
-import 'package:ccs/services/qrcode_dao.dart';
+import 'package:ccs/services/user_dao.dart';
 
 class QrCodeBloc extends Bloc<QrCodeEvent, QrCodeState> {
   QrCodeDao _qrCodeDao = QrCodeDao();
