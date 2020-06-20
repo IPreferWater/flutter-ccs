@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> {
       ScanWidget(
         context: context,
         scanBloc: _scanBloc,
+        session: widget.session,
       ),
       RaisedButton(
           color: Colors.blue,
@@ -74,9 +75,12 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder(
       bloc: _scanBloc,
       builder: (BuildContext context, ScanState state) {
-        if (state is StateScanWaiting) {
-          return Text(
-            "let's scan !",
+        if (state is StateScanFinishSuccess) {
+          return Column(
+            children: [
+              Text("Hello ${state.user.surname} ${state.user.name} have a good train"),
+              Text("${widget.session.usersID.length} for this session"),
+            ],
           );
         }
 
@@ -86,14 +90,20 @@ class _HomePageState extends State<HomePage> {
           );
         }
 
-        if (state is StateScanFinishSuccess) {
-          //update database add user id in sessions.users
+        if (state is StateScanFinishNotFound) {
+          return Text("user not found");
+        }
 
-          // display some informations about the current user
+        if (state is StateScanFinishUserAlreadyAdded) {
+          return Text("${state.user.surname} ${state.user.name} already added");
+        }
+
+        if (state is StateScanFinishErrorDatabase) {
+          return Text("error database");
         }
 
         if (state is StateScanFinishNotFound) {
-          return Text("can't find this code");
+          return Text("can't find a user with this code");
         }
         return Text("error");
       },

@@ -1,3 +1,4 @@
+import 'package:ccs/models/session.dart';
 import 'package:ccs/scan_bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
@@ -7,10 +8,12 @@ class ScanWidget extends StatefulWidget {
 
   final BuildContext context;
   final ScanBloc scanBloc;
+  final Session session;
 
   ScanWidget({
     @required this.context,
     @required this.scanBloc,
+    @required this.session,
   });
 
   _ScanWidgetState createState() => new _ScanWidgetState();
@@ -51,7 +54,7 @@ class _ScanWidgetState extends State<ScanWidget> {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
-      widget.scanBloc.dispatch(EventScannedCode(barcode));
+      widget.scanBloc.dispatch(EventUserScanAndInsertInSession(barcode, widget.session));
     } on PlatformException catch (e) {
     if (e.code == BarcodeScanner.CameraAccessDenied) {
     setState(() {

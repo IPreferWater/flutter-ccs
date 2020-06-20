@@ -18,11 +18,13 @@ class SessionDao {
   Future update(Session session) async {
 
     final finder = Finder(filter: Filter.byKey(session.id));
-    await _sessionStore.update(
+    final count = await _sessionStore.update(
       await _db,
       session.toMap(),
       finder: finder,
     );
+
+    return count;
   }
 
   Future delete(Session session) async {

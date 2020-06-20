@@ -17,3 +17,11 @@ class StateScanFinishSuccess extends ScanState {
   StateScanFinishSuccess(this.user) : super([user]);
 }
 class StateScanFinishNotFound extends ScanState {}
+
+class StateScanFinishUserAlreadyAdded extends ScanState {
+  final User user;
+
+  StateScanFinishUserAlreadyAdded(this.user) : super([user]);
+}
+
+class StateScanFinishErrorDatabase extends ScanState {}
