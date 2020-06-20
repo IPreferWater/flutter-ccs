@@ -30,7 +30,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       if(user==null){
         yield StateScanFinishNotFound();
       }
-
+      event.session.usersID.add(user.id);
 
     }
     }

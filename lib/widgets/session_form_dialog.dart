@@ -102,13 +102,13 @@ class _SessionFormDialogState extends State<SessionFormDialog> {
                         final sessionToCreate = Session(
                          label: label.text,
                           date: date,
-                          users: <User>[]
+                          usersID: <int>[]
                         );
 
                         //TODO: make this code correct
                         if(widget.sessionToUpdate!=null){
                           sessionToCreate.id = widget.sessionToUpdate.id;
-                          sessionToCreate.users = widget.sessionToUpdate.users;
+                          sessionToCreate.usersID = widget.sessionToUpdate.usersID;
                           _creationBloc.dispatch(UpdateCreation(sessionToCreate));
                         }else{
                           _creationBloc.dispatch(CreateCreation(sessionToCreate));

@@ -48,7 +48,7 @@ class _AdminSessionState extends State<AdminSession> {
                   final displayedSession = state.creations[index];
                   return ListTile(
                     title: Text(displayedSession.id.toString()),
-                    subtitle: Text('${displayedSession.label} ${displayedSession.date} (${displayedSession.users.length}))'),
+                    subtitle: Text('${displayedSession.label} ${displayedSession.date} (${displayedSession.usersID.length}))'),
                     trailing: _buildUpdateDeleteCreations(displayedSession),
                   );
                 },

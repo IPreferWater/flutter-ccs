@@ -6,18 +6,18 @@ class Session {
   int id;
   String label;
   DateTime date;
-  List <User> users;
+  List <int> usersID;
 
   Session({
     @required this.label,
    @required this.date,
-   @required this.users});
+   @required this.usersID});
 
   Map<String, dynamic> toMap() {
     return {
       'label': label,
       'date' : date.millisecondsSinceEpoch,
-      'users': users.map((user) => user.toMap()).toList(growable: false)
+      'users': usersID.map((id) => id).toList(growable: false)
     };
   }
 
@@ -26,19 +26,19 @@ class Session {
     final timestamp =  map['date'];
 
     var usersJson = map['users'];
-    List<User> users;
+    List<int> usersID;
     if (usersJson != null) {
-      users = usersJson
-          .map((user) => User.fromMap(user))
+      usersID = usersJson
+          .map((user) =>user)
           .toList()
-          .cast<User>();
+          .cast<int>();
     } else {
-      users = [];
+      usersID = [];
     }
     return Session(
       label : map['label'],
       date : DateTime.fromMillisecondsSinceEpoch(timestamp),
-        users :users
+        usersID :usersID
     );
   }
 
