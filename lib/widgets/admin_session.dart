@@ -83,7 +83,7 @@ class _AdminSessionState extends State<AdminSession> {
           icon: Icon(Icons.face),
           onPressed: () {
             print("should navigate");
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => HomePage(session: displayedSession)),
             );

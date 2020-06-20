@@ -24,6 +24,15 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
       yield StateScanFinishSuccess(user);
     }
+
+    else if (event is EventUserScanAndInsertInSession) {
+      final user = await _userDao.getUserByCode(event.code);
+      if(user==null){
+        yield StateScanFinishNotFound();
+      }
+
+
+    }
     }
   }
 

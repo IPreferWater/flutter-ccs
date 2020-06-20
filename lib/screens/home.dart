@@ -87,14 +87,9 @@ class _HomePageState extends State<HomePage> {
         }
 
         if (state is StateScanFinishSuccess) {
-          //final beforeImage = new File(state.creation.before.imgPath);
-          //final afterImage = new File(state.creation.after.imgPath);
+          //update database add user id in sessions.users
 
-          /*return BeforeAfter(
-               beforeImage: Image.file( beforeImage),
-               afterImage: Image.file( afterImage),
-                 imageCornerRadius: 10,
-             );*/
+          // display some informations about the current user
         }
 
         if (state is StateScanFinishNotFound) {
