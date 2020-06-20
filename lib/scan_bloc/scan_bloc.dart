@@ -14,29 +14,29 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
   // Display a loading indicator right from the start of the app
   @override
-  ScanState get initialState => ScanWaiting();
+  ScanState get initialState => StateScanWaiting();
 
   // This is where we place the logic.
   @override
   Stream<ScanState> mapEventToState(
       ScanEvent event,
       ) async* {
-    if (event is ScannedCode) {
+    if (event is EventScannedCode) {
 
-      final int serial = int.parse(event.serial);
+      final int serial = int.parse(event.code);
       final qrCode = await _qrCodeDao.getQrCodeBySerial(serial);
       if(qrCode==null){
-        yield ScanFinishNotFound();
+        yield StateScanFinishNotFound();
       }
 
       final creation = await _creationDao.getByQrCodeId(qrCode.id);
 
       if (creation == null) {
-        yield ScanFinishNotFound();
+        yield StateScanFinishNotFound();
         return;
       }
 
-      yield ScanFinishSuccess(creation);
+      yield StateScanFinishSuccess(creation);
     }
     }
   }

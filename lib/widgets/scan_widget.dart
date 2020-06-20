@@ -51,7 +51,7 @@ class _ScanWidgetState extends State<ScanWidget> {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
-      widget.scanBloc.dispatch(ScannedCode(barcode));
+      widget.scanBloc.dispatch(EventScannedCode(barcode));
     } on PlatformException catch (e) {
     if (e.code == BarcodeScanner.CameraAccessDenied) {
     setState(() {

@@ -71,17 +71,17 @@ class _UserFormDialogState extends State<UserFormDialog> {
     return BlocBuilder(
       bloc: _scanBloc,
       builder: (BuildContext context, ScanState state){
-        if (state is ScanWaiting){
+        if (state is StateScanWaiting){
          return _scanButton();
         }
 
-        if (state is ScanLoading){
+        if (state is StateScanLoading){
           return Center(
             child: CircularProgressIndicator(),
           );
         }
 
-        if(state is ScanFinishSuccess){
+        if(state is StateScanFinishSuccess){
           return
             Row(
               children: <Widget>[
@@ -93,7 +93,7 @@ class _UserFormDialogState extends State<UserFormDialog> {
             );
         }
 
-        if(state is ScanFinishNotFound){
+        if(state is StateScanFinishNotFound){
           return             Row(
             children: <Widget>[
               Expanded(
@@ -112,7 +112,7 @@ class _UserFormDialogState extends State<UserFormDialog> {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.qrCodeInput.text = barcode);
-      _scanBloc.dispatch(ScannedCode(barcode));
+      _scanBloc.dispatch(EventScannedCode(barcode));
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
           //snack error 'The user did not grant the camera permission!';

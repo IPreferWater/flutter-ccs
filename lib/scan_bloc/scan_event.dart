@@ -6,8 +6,8 @@ abstract class ScanEvent extends Equatable {
   ScanEvent([List props = const []]) : super(props);
 }
 
-class ScannedCode extends ScanEvent {
-  final String serial;
+class EventScannedCode extends ScanEvent {
+  final String code;
 
-  ScannedCode(this.serial) : super([serial]);
+  EventScannedCode(this.code) : super([code]);
 }

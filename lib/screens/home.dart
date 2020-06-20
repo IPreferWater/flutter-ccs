@@ -52,19 +52,19 @@ class _HomePageState extends State<HomePage> {
      return BlocBuilder(
          bloc: _scanBloc,
              builder: (BuildContext context, ScanState state){
-               if (state is ScanWaiting){
+               if (state is StateScanWaiting){
                  return Text(
                    "let's scan !",
                  );
                }
 
-           if (state is ScanLoading){
+           if (state is StateScanLoading){
              return Center(
                child: CircularProgressIndicator(),
              );
            }
 
-           if(state is ScanFinishSuccess){
+           if(state is StateScanFinishSuccess){
              //final beforeImage = new File(state.creation.before.imgPath);
              //final afterImage = new File(state.creation.after.imgPath);
 
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
              );*/
            }
 
-           if(state is ScanFinishNotFound){
+           if(state is StateScanFinishNotFound){
              return Text("can't find this code");
            }
            return Text("error");

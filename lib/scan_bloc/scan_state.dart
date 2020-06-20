@@ -1,4 +1,4 @@
-import 'package:ccs/models/session.dart';
+import 'package:ccs/models/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -7,19 +7,19 @@ abstract class ScanState extends Equatable {
   ScanState([List props = const []]) : super(props);
 }
 
-class ScanWaiting extends ScanState {}
+class StateScanWaiting extends ScanState {}
 
-class ScanLoading extends ScanState {}
+class StateScanLoading extends ScanState {}
 
-class ScanFinishSuccess extends ScanState {
-  final Session creation;
+class StateScanFinishSuccess extends ScanState {
+  final User user;
 
-  ScanFinishSuccess(this.creation) : super([creation]);
+  StateScanFinishSuccess(this.user) : super([user]);
 }
-class ScanFinishNotFound extends ScanState {}
+class StateScanFinishNotFound extends ScanState {}
 
-class ScanLoaded extends ScanState {
-  final Session creation;
+class StateScanLoaded extends ScanState {
+  final User user;
 
-  ScanLoaded(this.creation) : super([creation]);
+  StateScanLoaded(this.user) : super([user]);
 }
