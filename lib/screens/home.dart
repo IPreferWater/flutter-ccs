@@ -50,36 +50,35 @@ class _HomePageState extends State<HomePage> {
     if (widget.session == null) {
       return Text("select a session");
     }
-    return ListView(padding: const EdgeInsets.all(8), children: <Widget>[
-      _beforeAfterWidget(),
-      ScanWidget(
-        context: context,
-        scanBloc: _scanBloc,
-        session: widget.session,
-      ),
-      RaisedButton(
-          color: Colors.blue,
-          textColor: Colors.white,
-          splashColor: Colors.blueGrey,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AdminScreen()),
-            );
-          },
-          child: const Text('admin')),
-    ]);
+    return _sSessionStartedWidget();
   }
 
-  Widget _beforeAfterWidget() {
+  Widget _sSessionStartedWidget(){
     return BlocBuilder(
       bloc: _scanBloc,
       builder: (BuildContext context, ScanState state) {
+        return ListView(padding: const EdgeInsets.all(8),
+        children: [
+          Text(widget.session.label),
+          _stateScanWidget(state),
+          Text("${widget.session.usersID.length} for this session"),
+          ScanWidget(
+            context: context,
+            scanBloc: _scanBloc,
+            session: widget.session,
+          )
+        ],);
+
+      },
+    );
+  }
+
+  Widget _stateScanWidget(ScanState state) {
+
         if (state is StateScanFinishSuccess) {
           return Column(
             children: [
-              Text("Hello ${state.user.surname} ${state.user.name} have a good train"),
-              Text("${widget.session.usersID.length} for this session"),
+              Text("Hello ${state.user.surname} ${state.user.name} have a good train")
             ],
           );
         }
@@ -106,7 +105,6 @@ class _HomePageState extends State<HomePage> {
           return Text("can't find a user with this code");
         }
         return Text("error");
-      },
-    );
+
   }
 }
