@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: Center(child: _buildHomePage()),
+      body: Container(child: _buildHomePage()),
     );
   }
 
@@ -53,58 +53,118 @@ class _HomePageState extends State<HomePage> {
     return _sSessionStartedWidget();
   }
 
-  Widget _sSessionStartedWidget(){
-    return BlocBuilder(
-      bloc: _scanBloc,
-      builder: (BuildContext context, ScanState state) {
-        return ListView(padding: const EdgeInsets.all(8),
-        children: [
-          Text(widget.session.label),
-          _stateScanWidget(state),
-          Text("${widget.session.usersID.length} for this session"),
-          ScanWidget(
-            context: context,
-            scanBloc: _scanBloc,
-            session: widget.session,
-          )
-        ],);
+  Widget _sSessionStartedWidget() {
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints)
+    {
+      return Container(
+        child: Column(
+          children: [
+            BlocBuilder(
+              bloc: _scanBloc,
+              builder: (BuildContext context, ScanState state) {
+                return Container(
+                  height: constraints.maxHeight / 2,
+                  width: constraints.maxWidth,
+                  child: Column(
+                    children: [
+                      _buildTitle(),
+                      Container(height : MediaQuery.of(context).size.width * 0.65,
+                          width : MediaQuery.of(context).size.width * 0.65,
+                          child: Center(child: _stateScanWidget(state))),
+                      Container(
+                          height : MediaQuery.of(context).size.width * 0.10,
+                          width : constraints.maxWidth,
+                           child: Center(
+                            child: Text("${widget
+                            .session.usersID.length} for this session"),
+                          ))
+                    ],
+                  ),
+                );
+              },
+            ),
 
-      },
-    );
+
+
+            Container(
+              height: constraints.maxHeight / 2,
+              width: constraints.maxWidth,
+              child: ScanWidget(
+                context: context,
+                scanBloc: _scanBloc,
+                session: widget.session,
+              ),
+            )
+          ],
+        ),
+      );
+    });
   }
 
+  Widget _buildTitle() {
+    return Center(
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(widget.session.label,
+                style: new TextStyle(
+                  fontSize: 40.0,
+                  color: Colors.blue,
+                )),
+            //TODO degeulasse
+            Text("       ${widget.session.date.day}/${widget.session.date.month}/${widget.session.date.year}-${widget.session.date.hour}:${widget.session.date.minute}",
+                style: new TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.blueGrey,
+                )),
+          ],
+        ));
+  }
+
+
+
   Widget _stateScanWidget(ScanState state) {
+    if (state is StateScanLoading) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
 
-        if (state is StateScanFinishSuccess) {
-          return Column(
-            children: [
-              Text("Hello ${state.user.surname} ${state.user.name} have a good train")
-            ],
-          );
-        }
+    String txt = "";
+    Color color = Colors.blue;
+    if (state is StateScanFinishSuccess) {
+      txt = "Hello ${state.user.surname} ${state.user.name} have a good train";
+    }
 
-        if (state is StateScanLoading) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+    else if (state is StateScanFinishNotFound) {
+      txt = "user not found";
+      color = Colors.redAccent;
+    }
 
-        if (state is StateScanFinishNotFound) {
-          return Text("user not found");
-        }
+    else if (state is StateScanFinishUserAlreadyAdded) {
+      txt = "${state.user.surname} ${state.user.name} already added";
+      color = Colors.orange;
+    }
 
-        if (state is StateScanFinishUserAlreadyAdded) {
-          return Text("${state.user.surname} ${state.user.name} already added");
-        }
+    else if (state is StateScanFinishErrorDatabase) {
+     txt = "error database";
+     color = Colors.redAccent;
+    }
 
-        if (state is StateScanFinishErrorDatabase) {
-          return Text("error database");
-        }
+    else if (state is StateScanFinishNotFound) {
+     txt = "can't find a user with this code";
+     color = Colors.orange;
+    }
 
-        if (state is StateScanFinishNotFound) {
-          return Text("can't find a user with this code");
-        }
-        return Text("error");
-
+    else {
+      txt = "error";
+      color = Colors.redAccent;
+    }
+    return Text(txt, style: new TextStyle(
+      fontSize: 40.0,
+      color: color,
+    ));
   }
 }

@@ -29,10 +29,7 @@ class _ScanWidgetState extends State<ScanWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: ListView(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
+    return Column(
             children: <Widget>[
               RaisedButton(
                   color: Colors.blue,
@@ -46,7 +43,7 @@ class _ScanWidgetState extends State<ScanWidget> {
                 textAlign: TextAlign.center,
               )
             ]
-        )
+
     );
   }
 
